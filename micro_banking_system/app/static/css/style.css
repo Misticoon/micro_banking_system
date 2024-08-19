@@ -1,0 +1,355 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.index .container,
+.home .container,
+.saque .container,
+.deposito .container,
+.transferencia .container {
+    width: 80%;
+}
+
+.home .container,
+.saque .container,
+.deposito .container,
+.transferencia .container {
+    max-width: 800px;
+}
+
+.index .container {
+    max-width: 1200px;
+}
+
+.register .container {
+    width: 50%;
+    max-width: 600px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+}
+
+.home-icon {
+    position: absolute;
+    left: 20px;
+}
+
+header h1 {
+    margin: 0;
+    text-align: center;
+}
+
+.index header h1,
+.register header h1, 
+.home header h1 {
+    width: 100%;
+    padding-top: 10px;
+    color: #666;
+}
+
+.home header h1,
+.saque header h1,
+.deposito header h1,
+.transferencia header h1 {
+    flex-grow: 1;
+}
+
+.logout {
+    position: absolute;
+    right: 20px;
+}
+
+.logout button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.logout button:hover {
+    background-color: #0056b3;
+}
+
+.register main,
+.home main,
+.saque main,
+.deposito main,
+.transferencia main {
+    padding: 20px;
+}
+
+.home main,
+.saque main,
+.deposito main,
+.transferencia main  {
+    text-align: center;
+}
+
+.index main {
+    display: flex;
+}
+
+.image-section {
+    width: 70%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid #ccc;
+    overflow: hidden; /* Garante que a imagem não escape do quadrado */
+}
+
+.informative-image {
+    max-width: 100%;
+    max-height: 100%; /* Garante que a imagem se ajuste ao quadrado */
+    object-fit: cover; /* Faz a imagem preencher o quadrado corretamente */
+    border-radius: 5px; /* Opcional: para deixar os cantos da imagem levemente arredondados */
+}
+
+.login-section {
+    width: 30%;
+    padding: 20px;
+}
+
+.login-section h2 {
+    text-align: center;
+}
+
+.login-section form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-section label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.login-section input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-section button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.login-section button:hover {
+    background-color: #0056b3;
+}
+
+.withdraw-info {
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.withdraw-info h2 {
+    margin-bottom: 20px;
+}
+
+.withdraw-info p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.withdraw-info span {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.withdraw-info input[type="number"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px;
+}
+
+.account-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.account-info .account-details {
+    flex-basis: 60%;
+    text-align: left;
+}
+
+.account-info .balance {
+    font-size: 32px;
+    flex-basis: 40%;
+    text-align: right;
+}
+
+.account-details p {
+    margin: 0;
+}
+
+.deposit-info {
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.deposit-info h2 {
+    margin-bottom: 20px;
+}
+
+.deposit-info p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.deposit-info span {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.deposit-info input[type="number"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px;
+}
+
+.transfer-info {
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.transfer-info h2 {
+    margin-bottom: 20px;
+}
+
+.transfer-info p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.transfer-info span {
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.transfer-info input[type="text"],
+.transfer-info input[type="number"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.form-container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.register button {
+    margin-top: 20px;
+    border: none;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.index .buttons-container,
+.register .buttons-container,
+.home .buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.saque .buttons-container,
+.deposito .buttons-container,
+.transferencia .buttons-container {
+    margin-top: 20px;
+}
+
+.buttons-container button {
+    width: 30%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+}
+
+.index .buttons-container button,
+.register .buttons-container button,
+.home .buttons-container button {
+    padding: 15px;
+    font-size: 16px;
+}
+
+.saque .buttons-container button,
+.deposito .buttons-container button,
+.transferencia .buttons-container button {
+    padding: 10px 20px;
+    margin: 0 10px;
+}

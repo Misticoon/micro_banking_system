@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="../../static/css/style.css">
+</head>
+<body class="register">
+    <div class="container">
+        <header>
+            <div class="home-icon">
+                <a href="index.html">
+                    <img src="home.png" alt="Home" width="30">
+                </a>
+            </div>
+            <h1>REGISTRO</h1>
+        </header>
+        <main>
+            <div class="form-container">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="firstName">Nome</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                        
+                        <label for="lastName">Sobrenome</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" name="password" required>
+                        
+                        <label for="confirmPassword">Confirme sua senha</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dob">Data de nascimento</label>
+                        <input type="date" id="dob" name="dob" required>
+                    </div>
+
+                    <button type="submit">Avançar</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script src="../../static/js/register.js"></script>
+</body>
+</html>

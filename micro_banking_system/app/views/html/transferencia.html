@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transferência</title>
+    <link rel="stylesheet" href="../../static/css/style.css">
+</head>
+<body class="transferencia">
+    <div class="container">
+        <header>
+            <div class="home-icon">
+                <a href="home.html">
+                    <img src="home.png" alt="Home" width="30">
+                </a>
+            </div>
+            <h1>TÍTULO</h1>
+            <div class="logout">
+                <button id="logoutBtn">SAIR</button>
+            </div>
+        </header>
+        <main>
+            <div class="transfer-info">
+                <h2>TRANSFERÊNCIA</h2>
+                <p><strong>NÚMERO DA Cta.</strong> <span>ID DA CONTA CADASTRADA</span></p>
+                <p>Digite o número da conta de destino: <input type="text" id="destinationAccount"></p>
+                <p>Digite o valor da transferência: R$ <input type="number" id="transferValue" min="0" step="0.01"></p>
+                <div class="buttons-container">
+                    <button type="button" id="clearBtn">LIMPAR</button>
+                    <button type="button" id="transferBtn">TRANSFERIR</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="../../static/js/transferencia.js"></script>
+</body>
+</html>
