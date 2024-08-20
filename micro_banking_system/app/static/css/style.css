@@ -41,11 +41,15 @@ body {
 
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 20px;
     border-bottom: 1px solid #ccc;
     position: relative;
+}
+
+.logo {
+    max-width: 10%; /* Ajuste conforme necessário */
+    height: auto;    /* Mantém a proporção da imagem */
 }
 
 .home-icon {
@@ -78,17 +82,16 @@ header h1 {
     right: 20px;
 }
 
-.logout button {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    color: white;
+.logout-icon {
+    width: 30px;
     cursor: pointer;
+    transition: transform 0.3s;
 }
 
-.logout button:hover {
-    background-color: #0056b3;
+.logout-icon:hover {
+    transform: scale(1.1);
 }
+
 
 .register main,
 .home main,

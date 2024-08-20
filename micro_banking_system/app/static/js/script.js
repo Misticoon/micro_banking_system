@@ -4,24 +4,153 @@ const users = [
     { email: "admin@example.com", password: "admin123" }
 ];
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+// Verificação para o formulário de login
+if (document.getElementById('loginForm')) {
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const loginEmail = document.getElementById('loginEmail').value;
+        const loginPassword = document.getElementById('loginPassword').value;
 
-    // Verificação se o usuário existe no "banco de dados"
-    const userExists = users.find(user => user.email === email && user.password === password);
+        // Verificação se o usuário existe no "banco de dados"
+        const userExists = users.find(user => user.email === loginEmail && user.password === loginPassword);
 
-    if (userExists) {
-        // Redirecionar para a página "home.html" se o login for bem-sucedido
-        window.location.href = "home.html";
-    } else {
-        // Exibir notificação de erro se o login falhar
-        alert("Email ou senha incorretos.");
-    }
-});
+        if (userExists) {
+            // Redirecionar para a página "home.html" se o login for bem-sucedido
+            window.location.href = "home.html";
+        } else {
+            // Exibir notificação de erro se o login falhar
+            alert("Email ou senha incorretos.");
+        }
+    });
 
-document.getElementById('registerBtn').addEventListener('click', function() {
     // Redireciona para a página de registro
-    window.location.href = "register.html";
+    document.getElementById('registerBtn').addEventListener('click', function() {
+        window.location.href = "register.html";
+    });
+}
+
+// Verificação para o formulário de registro
+if (document.getElementById('registerForm')) {
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        // Obter valores dos campos do formulário
+        const registerEmail = document.getElementById('registerEmail').value;
+        const dob = document.getElementById('registerDob').value;
+        const registerPassword = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('registerConfirmPassword').value;
+        
+        // Calcular idade com base na data de nascimento
+        const birthDate = new Date(dob);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        // Verificação se o usuário tem menos de 18 anos
+        if (age < 18) {
+            alert('Você deve ter pelo menos 18 anos para se registrar.');
+            return; // Interrompe o envio do formulário
+        }
+
+        // Verificação se as senhas coincidem
+        if (registerPassword !== confirmPassword) {
+            alert('As senhas não coincidem. Por favor, verifique.');
+            return; // Interrompe o envio do formulário
+        }
+
+        // Adicionar o novo usuário ao "banco de dados"
+        users.push({ email: registerEmail, password: registerPassword });
+
+        // Exibe uma caixa de aviso ao usuário
+        alert('Cadastro realizado com sucesso! Redirecionando para a página inicial.');
+
+        // Redireciona para a página inicial (index.html)
+        window.location.href = "index.html";
+    });
+}
+
+// Função de Logout
+document.getElementById('logoutBtn').addEventListener('click', function() {
+    alert("Você saiu da conta.");
+    // Redirecionar para a página de login
+    window.location.href = "index.html";
 });
+
+// Funcionalidade de depósito
+if (document.getElementById('depositBtn')) {
+    document.getElementById('depositBtn').addEventListener('click', function() {
+        // Verifica se está na página de depósito ou redireciona para ela
+        if (document.getElementById('depositValue')) {
+            const depositValue = document.getElementById('depositValue').value;
+            if (depositValue) {
+                alert(`Depósito de R$ ${depositValue} realizado com sucesso!`);
+            } else {
+                alert("Por favor, insira um valor para o depósito.");
+            }
+        } else {
+            window.location.href = "deposito.html";
+        }
+    });
+
+    // Limpar o valor do depósito
+    if (document.getElementById('clearBtn')) {
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            document.getElementById('depositValue').value = '';
+        });
+    }
+}
+
+// Funcionalidade de saque
+if (document.getElementById('withdrawBtn')) {
+    document.getElementById('withdrawBtn').addEventListener('click', function() {
+        // Verifica se está na página de saque ou redireciona para ela
+        if (document.getElementById('withdrawValue')) {
+            const withdrawValue = document.getElementById('withdrawValue').value;
+            if (withdrawValue) {
+                alert(`Saque de R$ ${withdrawValue} realizado com sucesso!`);
+            } else {
+                alert("Por favor, insira um valor para o saque.");
+            }
+        } else {
+            window.location.href = "saque.html";
+        }
+    });
+
+    // Limpar o valor do saque
+    if (document.getElementById('clearBtn')) {
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            document.getElementById('withdrawValue').value = '';
+        });
+    }
+}
+
+// Funcionalidade de transferência
+if (document.getElementById('transferBtn')) {
+    document.getElementById('transferBtn').addEventListener('click', function() {
+        // Verifica se está na página de transferência ou redireciona para ela
+        if (document.getElementById('destinationAccount') && document.getElementById('transferValue')) {
+            const destinationAccount = document.getElementById('destinationAccount').value;
+            const transferValue = document.getElementById('transferValue').value;
+            
+            if (destinationAccount && transferValue) {
+                alert(`Transferência de R$ ${transferValue} para a conta ${destinationAccount} realizada com sucesso!`);
+            } else {
+                alert("Por favor, insira o número da conta de destino e o valor da transferência.");
+            }
+        } else {
+            window.location.href = "transferencia.html";
+        }
+    });
+
+    // Limpar os campos de transferência
+    if (document.getElementById('clearBtn')) {
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            document.getElementById('destinationAccount').value = '';
+            document.getElementById('transferValue').value = '';
+        });
+    }
+}
