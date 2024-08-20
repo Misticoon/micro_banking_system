@@ -13,20 +13,15 @@
         </header>
         <main>
             <div class="image-section">
-                <div class="text-overlay">
-                    <h2 class="image-title">Bem-vindo ao nosso micro sistema bancário: simples, rápido e feito para você.</h2>
-                    <p class="image-subtitle">Aqui, suas finanças estão a um clique de distância.</p>
-                    <p class="image-description">Nosso sistema foi desenvolvido para proporcionar a melhor experiência, garantindo praticidade e velocidade em todas as suas operações bancárias. Fácil de usar, com interface intuitiva e suporte dedicado para atender todas as suas necessidades.</p>
-                </div>
                 <img src="../../static/image/banner.png" alt="Informações" class="informative-image">
             </div>
             <div class="login-section">
                 <h2>LOGIN</h2>
-                <form id="loginForm">
+                <form id="loginForm" method="POST" action="/index">
                     <label for="loginEmail">EMAIL</label>
-                    <input type="email" id="loginEmail" name="loginEmail" required>
+                    <input type="email" id="loginEmail" name="username" required>
                     <label for="loginPassword">SENHA</label>
-                    <input type="password" id="loginPassword" name="loginPassword" required>
+                    <input type="password" id="loginPassword" name="password" required>
                     <button type="submit">ENTRAR</button>
                     <button type="button" id="registerBtn">REGISTRAR</button>
                 </form>
@@ -34,5 +29,11 @@
         </main>
     </div>
     <script src="../../static/js/script.js"></script>
+    <script>
+        // Redirecionamento para a página de registro
+        document.getElementById('registerBtn').addEventListener('click', function() {
+            window.location.href = '/register';
+        });
+    </script>
 </body>
 </html>

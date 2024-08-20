@@ -1,35 +1,37 @@
 from app.controllers.application import Application
-from bottle import Bottle, route, run, request, redirect, template, static_file
+from bottle import Bottle, route, run, request, static_file
+from bottle import redirect, template
+
 
 app = Bottle()
 ctl = Application()
 
+
 #-----------------------------------------------------------------------------
 # Rotas:
 
-# Arquivos estáticos:
 @app.route('/static/<filepath:path>')
 def serve_static(filepath):
     return static_file(filepath, root='./app/static')
 
-# Boas-vindas ao usuário
-@app.route('/')  # sempre que acessar home, o logout é automaticamente realizado
+
+@app.route('/')
 @app.route('/user/<unknown>')
 def index(unknown=None):
     if not unknown:
-        return ctl.render('index')
+       return ctl.render('index')
     else:
         if ctl.is_authenticated():
-            return ctl.render('area_membros')
+            return ctl.render('home')
         else:
-            redirect('/login')
+            redirect('/index')
 
-# Rota para renderizar a página de cadastro `register.html` (GET)
+
 @app.route('/register', method='GET')
 def register():
-    return template('register')
+    return ctl.render('register')
 
-# Rota para cadastro (POST)
+
 @app.route('/register', method='POST')
 def action_register():
     first_name = request.forms.get('firstName')
@@ -37,33 +39,43 @@ def action_register():
     email = request.forms.get('registerEmail')
     password = request.forms.get('registerPassword')
     dob = request.forms.get('registerDob')
-    ctl.__model.book(first_name, last_name, email, password, dob)
-    return redirect('/login')  # Redireciona para login após cadastro
 
-# Rota para login (GET)
-@app.route('/login', method='GET')
+    # Aqui você inseriria a lógica para salvar o usuário, se necessário
+    # ctl.create_user(first_name, last_name, email, password, dob)
+
+    # Redireciona para a página inicial após o registro
+    redirect('/')
+
+
+
+#-----------------------------------------------------------------------------
+# Suas rotas aqui:
+
+@app.route('/home/<username>', methods=['GET'])
+def action_home(username=None):
+    return ctl.render('home',username)
+
+
+@app.route('/index', method='GET')
 def login():
-    return ctl.render('login')
+    return ctl.render('index')
 
-# Rota para login (POST)
-@app.route('/login', method='POST')
-def action_login():
-    email = request.forms.get('loginEmail')
-    password = request.forms.get('loginPassword')
-    if ctl.authenticate_user(email, password):
-        return redirect('/area_membros')
-    else:
-        return template('login', error=True)
 
-# Rota para área de membros
-@app.route('/area_membros')
-def area_membros():
-    if ctl.is_authenticated():
-        return ctl.render('area_membros')
-    else:
-        return redirect('/login')
+@app.route('/index', method='POST')
+def action_index():
+    username = request.forms.get('username')
+    password = request.forms.get('password')
+    ctl.authenticate_user(username, password)
+
+
+@app.route('/logout', method='POST')
+def logout():
+    ctl.logout_user()
+
 
 #-----------------------------------------------------------------------------
 
+
 if __name__ == '__main__':
+
     run(app, host='localhost', port=8080, debug=True)
