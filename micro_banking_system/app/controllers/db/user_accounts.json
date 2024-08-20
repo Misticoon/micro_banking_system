@@ -1,0 +1,16 @@
+[
+    {
+        "first_name": "Henrique",
+        "last_name": "Silva",
+        "email": "henrique@example.com",
+        "password": "123456",
+        "dob": "1990-01-01"
+    },
+    {
+        "first_name": "Moura",
+        "last_name": "Oliveira",
+        "email": "moura@example.com",
+        "password": "456789",
+        "dob": "1985-05-20"
+    }
+]
