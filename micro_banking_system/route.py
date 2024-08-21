@@ -2,36 +2,32 @@ from app.controllers.application import Application
 from bottle import Bottle, route, run, request, static_file
 from bottle import redirect, template
 
-
 app = Bottle()
 ctl = Application()
 
-
-#-----------------------------------------------------------------------------
-# Rotas:
-
+# Rota para servir arquivos estáticos
 @app.route('/static/<filepath:path>')
 def serve_static(filepath):
     return static_file(filepath, root='./app/static')
 
-
+# Rota para a página inicial
 @app.route('/')
 @app.route('/user/<unknown>')
 def index(unknown=None):
     if not unknown:
-       return ctl.render('index')
+        return ctl.render('index')
     else:
-        if ctl.is_authenticated():
-            return ctl.render('home')
+        if ctl.is_authenticated(unknown):
+            return ctl.render('home', unknown)
         else:
             redirect('/index')
 
-
+# Rota para o registro (GET)
 @app.route('/register', method='GET')
 def register():
     return ctl.render('register')
 
-
+# Rota para processar o registro (POST)
 @app.route('/register', method='POST')
 def action_register():
     first_name = request.forms.get('firstName')
@@ -40,26 +36,21 @@ def action_register():
     password = request.forms.get('registerPassword')
     dob = request.forms.get('registerDob')
 
-    # Aqui você inseriria a lógica para salvar o usuário, se necessário
-    # ctl.create_user(first_name, last_name, email, password, dob)
+    # Chama a função para criar um novo usuário
+    ctl.create_user(first_name, last_name, email, password, dob)
 
     # Redireciona para a página inicial após o registro
     redirect('/')
 
+# Outras rotas do aplicativo
 
-
-#-----------------------------------------------------------------------------
-# Suas rotas aqui:
-
-@app.route('/home/<username>', methods=['GET'])
+@app.route('/home/<username>', method='GET')
 def action_home(username=None):
-    return ctl.render('home',username)
-
+    return ctl.render('home', username)
 
 @app.route('/index', method='GET')
 def login():
     return ctl.render('index')
-
 
 @app.route('/index', method='POST')
 def action_index():
@@ -67,15 +58,9 @@ def action_index():
     password = request.forms.get('password')
     ctl.authenticate_user(username, password)
 
-
 @app.route('/logout', method='POST')
 def logout():
     ctl.logout_user()
 
-
-#-----------------------------------------------------------------------------
-
-
 if __name__ == '__main__':
-
     run(app, host='localhost', port=8080, debug=True)

@@ -2,15 +2,13 @@ from app.models.user_account import UserAccount
 import json
 import uuid
 
-
 class DataRecord():
     """Banco de dados JSON para o recurso Usuários"""
 
     def __init__(self):
-        self.__user_accounts= []
+        self.__user_accounts = []
         self.__authenticated_users = {}
         self.read()
-
 
     def read(self):
         try:
@@ -20,22 +18,17 @@ class DataRecord():
         except FileNotFoundError:
             self.__user_accounts.append(UserAccount('Guest', '000000'))
 
-
-    def book(self,username,password):
-        new_user= UserAccount(username,password)
+    def book(self, username, password):
+        new_user = UserAccount(username, password)
         self.__user_accounts.append(new_user)
         with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
-            user_data = [vars(user_account) for user_account in \
-            self.__user_accounts]
+            user_data = [vars(user_account) for user_account in self.__user_accounts]
             json.dump(user_data, arquivo_json)
 
-
-    def getCurrentUser(self,session_id):
+    def getCurrentUser(self, session_id):
         if session_id in self.__authenticated_users:
             return self.__authenticated_users[session_id]
-        else:
-            return None
-
+        return None
 
     def checkUser(self, username, password):
         for user in self.__user_accounts:
@@ -44,7 +37,6 @@ class DataRecord():
                 self.__authenticated_users[session_id] = user
                 return session_id  # Retorna o ID de sessão para o usuário
         return None
-
 
     def logout(self, session_id):
         if session_id in self.__authenticated_users:

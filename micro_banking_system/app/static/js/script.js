@@ -109,28 +109,44 @@ if (document.getElementById('depositBtn')) {
 }
 
 // Funcionalidade de saque
-if (document.getElementById('withdrawBtn')) {
-    document.getElementById('withdrawBtn').addEventListener('click', function() {
-        // Verifica se está na página de saque ou redireciona para ela
-        if (document.getElementById('withdrawValue')) {
-            const withdrawValue = document.getElementById('withdrawValue').value;
-            if (withdrawValue) {
-                alert(`Saque de R$ ${withdrawValue} realizado com sucesso!`);
-            } else {
-                alert("Por favor, insira um valor para o saque.");
-            }
-        } else {
-            window.location.href = "/saque";
-        }
-    });
+// Verificação para o formulário de registro
+if (document.getElementById('registerForm')) {
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    // Limpar o valor do saque
-    if (document.getElementById('clearBtn')) {
-        document.getElementById('clearBtn').addEventListener('click', function() {
-            document.getElementById('withdrawValue').value = '';
-        });
-    }
+        // Obter valores dos campos do formulário
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const registerEmail = document.getElementById('registerEmail').value;
+        const dob = document.getElementById('registerDob').value;
+        const registerPassword = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+        // Verificação se o usuário tem menos de 18 anos
+        const birthDate = new Date(dob);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+
+        if (age < 18) {
+            alert('Você deve ter pelo menos 18 anos para se registrar.');
+            return; // Interrompe o envio do formulário
+        }
+
+        if (registerPassword !== confirmPassword) {
+            alert('As senhas não coincidem. Por favor, verifique.');
+            return; // Interrompe o envio do formulário
+        }
+
+        // Submete o formulário para o backend
+        document.getElementById('registerForm').submit();
+    });
 }
+
 
 // Funcionalidade de transferência
 if (document.getElementById('transferBtn')) {
