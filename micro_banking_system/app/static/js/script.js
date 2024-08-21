@@ -23,26 +23,24 @@ if (document.getElementById('loginForm')) {
     });
 }
 
+// Verificação para o formulário de registro
 if (document.getElementById('registerForm')) {
     document.getElementById('registerForm').addEventListener('submit', function(event) {
-        // Impede o envio do formulário até a verificação ser completada
-        event.preventDefault();
-
         // Obter valores dos campos do formulário
         const registerEmail = document.getElementById('registerEmail').value;
-
+        
         // Verificação se o email já existe no "banco de dados"
-        fetch(`/email_exists?email=${encodeURIComponent(registerEmail)}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.exists) {
-                    alert('O email informado já está registrado. Por favor, use outro email.');
-                } else {
-                    // Se o email não existe, enviar o formulário
-                    document.getElementById('registerForm').submit();
-                }
-            })
-            .catch(error => console.error('Erro:', error));
+        const emailExists = users.some(function(user) {
+            return user.email === registerEmail;
+        });
+
+        if (emailExists) {
+            alert('O email informado já está registrado. Por favor, use outro email.');
+            event.preventDefault(); // Impede o envio do formulário se o email já existir
+            return;
+        }
+
+        // Outras validações...
     });
 }
 
