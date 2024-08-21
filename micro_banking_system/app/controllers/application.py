@@ -51,4 +51,6 @@ class Application():
 
     def create_user(self, first_name, last_name, email, password, dob):
         # Criar o novo usuário e salvar
-        self.__model.book(email, password)
+        self.__model.book(first_name, last_name, email, password)
+
+

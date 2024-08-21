@@ -27,20 +27,23 @@ def index(unknown=None):
 def register():
     return ctl.render('register')
 
-# Rota para processar o registro (POST)
+# route.py
+
 @app.route('/register', method='POST')
 def action_register():
     first_name = request.forms.get('firstName')
     last_name = request.forms.get('lastName')
     email = request.forms.get('registerEmail')
     password = request.forms.get('registerPassword')
-    dob = request.forms.get('registerDob')
+    dob = request.forms.get('registerDob')  # Inclua dob na chamada
 
     # Chama a função para criar um novo usuário
     ctl.create_user(first_name, last_name, email, password, dob)
 
     # Redireciona para a página inicial após o registro
     redirect('/')
+
+
 
 # Outras rotas do aplicativo
 
@@ -63,4 +66,4 @@ def logout():
     ctl.logout_user()
 
 if __name__ == '__main__':
-    run(app, host='localhost', port=8080, debug=True)
+    run(app, host='localhost', port=8060, debug=True)

@@ -10,6 +10,8 @@ class DataRecord():
         self.__authenticated_users = {}
         self.read()
 
+# datarecord.py
+
     def read(self):
         try:
             with open("app/controllers/db/user_accounts.json", "r") as arquivo_json:
@@ -18,8 +20,11 @@ class DataRecord():
         except FileNotFoundError:
             self.__user_accounts.append(UserAccount('Guest', '000000'))
 
-    def book(self, username, password):
-        new_user = UserAccount(username, password)
+
+# datarecord.py
+
+    def book(self, first_name, last_name, username, password):
+        new_user = UserAccount(first_name, last_name, username, password)
         self.__user_accounts.append(new_user)
         with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
             user_data = [vars(user_account) for user_account in self.__user_accounts]
