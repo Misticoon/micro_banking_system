@@ -78,4 +78,4 @@ def logout():
 
 if __name__ == '__main__':
 
-    run(app, host='localhost', port=7080, debug=True)
+    run(app, host='localhost', port=8080, debug=True)
