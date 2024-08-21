@@ -22,21 +22,21 @@ class Application():
 
     def register(self):
 
-        return template('app/views/html/register.html')
+        return template('app/views/html/register')
 
 
     def index(self):
         
-        return template('app/views/html/index.html')
+        return template('app/views/html/index')
 
 
     def home(self,username):
         if self.is_authenticated(username):
             session_id= request.get_cookie('session_id')
             user = self.__model.getCurrentUser(session_id)
-            return template('app/views/html/home.html', \
+            return template('app/views/html/home', \
             transfered=True, current_user=user)
-        return template('app/views/html/home.html', \
+        return template('app/views/html/home', \
         transfered=False)
 
 
@@ -51,12 +51,12 @@ class Application():
         if session_id:
             response.set_cookie('session_id', session_id, httponly=True, \
             secure=True, max_age=3600)
-            redirect(f'/home.html/{username}')
-        redirect('/index.html')
+            redirect(f'/home/{username}')
+        redirect('/index')
 
 
     def logout_user(self):
         session_id = request.get_cookie('session_id')
         self.__model.logout(session_id)
         response.delete_cookie('session_id')
-        redirect('/index.html')
+        redirect('/index')

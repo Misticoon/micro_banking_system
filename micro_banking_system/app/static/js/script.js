@@ -35,6 +35,8 @@ if (document.getElementById('registerForm')) {
         event.preventDefault();
         
         // Obter valores dos campos do formulário
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
         const registerEmail = document.getElementById('registerEmail').value;
         const dob = document.getElementById('registerDob').value;
         const registerPassword = document.getElementById('registerPassword').value;
