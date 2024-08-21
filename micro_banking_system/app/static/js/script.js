@@ -1,9 +1,3 @@
-// Simulação de um banco de dados de usuários
-const users = [
-    { email: "user@example.com", password: "password" },
-    { email: "admin@example.com", password: "admin123" }
-];
-
 // Verificação para o formulário de login
 if (document.getElementById('loginForm')) {
     document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -29,51 +23,29 @@ if (document.getElementById('loginForm')) {
     });
 }
 
-// Verificação para o formulário de registro
 if (document.getElementById('registerForm')) {
     document.getElementById('registerForm').addEventListener('submit', function(event) {
+        // Impede o envio do formulário até a verificação ser completada
         event.preventDefault();
-        
+
         // Obter valores dos campos do formulário
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
         const registerEmail = document.getElementById('registerEmail').value;
-        const dob = document.getElementById('registerDob').value;
-        const registerPassword = document.getElementById('registerPassword').value;
-        const confirmPassword = document.getElementById('registerConfirmPassword').value;
-        
-        // Calcular idade com base na data de nascimento
-        const birthDate = new Date(dob);
-        const today = new Date();
-        let age = today.getFullYear() - birthDate.getFullYear();
-        const monthDifference = today.getMonth() - birthDate.getMonth();
-        
-        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-            age--;
-        }
 
-        // Verificação se o usuário tem menos de 18 anos
-        if (age < 18) {
-            alert('Você deve ter pelo menos 18 anos para se registrar.');
-            return; // Interrompe o envio do formulário
-        }
-
-        // Verificação se as senhas coincidem
-        if (registerPassword !== confirmPassword) {
-            alert('As senhas não coincidem. Por favor, verifique.');
-            return; // Interrompe o envio do formulário
-        }
-
-        // Adicionar o novo usuário ao "banco de dados"
-        users.push({ email: registerEmail, password: registerPassword });
-
-        // Exibe uma caixa de aviso ao usuário
-        alert('Cadastro realizado com sucesso! Redirecionando para a página inicial.');
-
-        // Redireciona para a página inicial (usando a rota correta do servidor)
-        window.location.href = "/";
+        // Verificação se o email já existe no "banco de dados"
+        fetch(`/email_exists?email=${encodeURIComponent(registerEmail)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    alert('O email informado já está registrado. Por favor, use outro email.');
+                } else {
+                    // Se o email não existe, enviar o formulário
+                    document.getElementById('registerForm').submit();
+                }
+            })
+            .catch(error => console.error('Erro:', error));
     });
 }
+
 
 // Função de Logout
 if (document.getElementById('logoutBtn')) {

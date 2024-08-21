@@ -46,3 +46,6 @@ class DataRecord():
     def logout(self, session_id):
         if session_id in self.__authenticated_users:
             del self.__authenticated_users[session_id] # Remove o usuário logado
+
+    def email_exists(self, email):
+        return any(user.username == email for user in self.__user_accounts)

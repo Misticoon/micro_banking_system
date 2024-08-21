@@ -50,7 +50,13 @@ class Application():
         redirect('/index')
 
     def create_user(self, first_name, last_name, email, password, dob):
-        # Criar o novo usuário e salvar
-        self.__model.book(first_name, last_name, email, password)
+        if self.__model.email_exists(email):
+            # Se o email já existe, você pode redirecionar para uma página de erro ou mostrar uma mensagem de erro
+            redirect('/register?error=email_exists')
+        else:
+            self.__model.book(first_name, last_name, email, password)
+            redirect('/index')
 
+    def email_exists(self, email):
+        return self.__model.email_exists(email)
 
