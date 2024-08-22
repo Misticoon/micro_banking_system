@@ -362,13 +362,17 @@ header h1 {
     font-size: 16px;
 }
 
+.buttons-container button,
+button {
+    background-color: #007BFF; /* Azul padrão */
+    color: white;
+    cursor: pointer;
+}
+
 button {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
-    background-color: #007BFF;
-    color: white;
-    cursor: pointer;
 }
 
 .register button {
@@ -376,7 +380,8 @@ button {
     border: none;
 }
 
-button:hover {
+button:hover,
+.buttons-container button:hover {
     background-color: #0056b3;
 }
 
@@ -397,9 +402,6 @@ button:hover {
     width: 30%;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #007BFF;
-    color: white;
-    cursor: pointer;
 }
 
 .index .buttons-container button,
