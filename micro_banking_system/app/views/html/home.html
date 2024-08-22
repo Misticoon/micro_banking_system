@@ -19,10 +19,10 @@
         <main>
             <div class="account-info">
                 <div class="account-details">
-                    <p><strong>NOME</strong></p>
-                    <p><strong>NÚMERO DA Cta.</strong></p>
+                    <p><strong>{{current_user.first_name}} {{current_user.last_name}}</strong></p>
+                    <p><strong>{{current_user.bank_account_id}}</strong></p>
                 </div>
-                <p class="balance"><strong>SALDO</strong></p>
+                <p class="balance"><strong>R$ {{current_user.balance}}</strong></p>
             </div>
             <div class="buttons-container">
                 <button type="button" id="depositBtn">DEPÓSITO</button>
