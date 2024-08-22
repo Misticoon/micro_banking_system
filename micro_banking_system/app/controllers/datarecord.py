@@ -10,8 +10,6 @@ class DataRecord():
         self.__authenticated_users = {}
         self.read()
 
-# datarecord.py
-
     def read(self):
         try:
             with open("app/controllers/db/user_accounts.json", "r") as arquivo_json:
@@ -19,9 +17,6 @@ class DataRecord():
                 self.__user_accounts = [UserAccount(**data) for data in user_data]
         except FileNotFoundError:
             self.__user_accounts.append(UserAccount('Guest', '000000'))
-
-
-# datarecord.py
 
     def book(self, first_name, last_name, username, password):
         new_user = UserAccount(first_name, last_name, username, password)
@@ -38,14 +33,14 @@ class DataRecord():
     def checkUser(self, username, password):
         for user in self.__user_accounts:
             if user.username == username and user.password == password:
-                session_id = str(uuid.uuid4())  # Gera um ID de sessão único
+                session_id = str(uuid.uuid4())
                 self.__authenticated_users[session_id] = user
-                return session_id  # Retorna o ID de sessão para o usuário
+                return session_id
         return None
 
     def logout(self, session_id):
         if session_id in self.__authenticated_users:
-            del self.__authenticated_users[session_id] # Remove o usuário logado
+            del self.__authenticated_users[session_id]
 
     def email_exists(self, email):
         return any(user.username == email for user in self.__user_accounts)

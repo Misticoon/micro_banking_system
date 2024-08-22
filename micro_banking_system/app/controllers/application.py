@@ -11,12 +11,11 @@ class Application():
         }
         self.__model = DataRecord()
 
-    def render(self, page, username=None):
+    def render(self, page, identifier=None):
         content = self.pages.get(page, self.index)
-        if username:
-            return content(username)
+        if identifier:
+            return content(identifier)
         return content()
-
 
     def register(self):
         return template('app/views/html/register')
@@ -24,24 +23,25 @@ class Application():
     def index(self):
         return template('app/views/html/index')
 
-    def home(self, username):
-        if self.is_authenticated(username):
+    def home(self, bank_account_id):
+        if self.is_authenticated(bank_account_id):
             session_id = request.get_cookie('session_id')
             user = self.__model.getCurrentUser(session_id)
             return template('app/views/html/home', transfered=True, current_user=user)
         return template('app/views/html/home', transfered=False)
 
-    def is_authenticated(self, username):
+    def is_authenticated(self, bank_account_id):
         session_id = request.get_cookie('session_id')
         current_user = self.__model.getCurrentUser(session_id)
-        return current_user and username == current_user.username
+        return current_user and bank_account_id == current_user.bank_account_id
 
     def authenticate_user(self, username, password):
         session_id = self.__model.checkUser(username, password)
         if session_id:
+            user = self.__model.getCurrentUser(session_id)
             response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
-            redirect(f'/home/{username}')
-        redirect('/index')
+            redirect(f'/home/{user.bank_account_id}')
+        redirect('/')
 
     def logout_user(self):
         session_id = request.get_cookie('session_id')
@@ -51,12 +51,10 @@ class Application():
 
     def create_user(self, first_name, last_name, email, password, dob):
         if self.__model.email_exists(email):
-            # Se o email já existe, você pode redirecionar para uma página de erro ou mostrar uma mensagem de erro
             redirect('/register?error=email_exists')
         else:
             self.__model.book(first_name, last_name, email, password)
-            redirect('/index')
+            redirect('/')
 
     def email_exists(self, email):
         return self.__model.email_exists(email)
-

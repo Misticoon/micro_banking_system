@@ -5,19 +5,11 @@ if (document.getElementById('loginForm')) {
         const loginEmail = document.getElementById('loginEmail').value;
         const loginPassword = document.getElementById('loginPassword').value;
 
-        // Verificação se o usuário existe no "banco de dados"
-        const userExists = users.find(user => user.email === loginEmail && user.password === loginPassword);
+        const form = document.getElementById('loginForm');
+        form.submit(); // Submete o formulário ao backend para autenticação
 
-        if (userExists) {
-            // Redirecionar para a página principal (usando a rota correta do servidor)
-            window.location.href = "/";
-        } else {
-            // Exibir notificação de erro se o login falhar
-            alert("Email ou senha incorretos.");
-        }
     });
 
-    // Redireciona para a página de registro
     document.getElementById('registerBtn').addEventListener('click', function() {
         window.location.href = "/register";
     });
