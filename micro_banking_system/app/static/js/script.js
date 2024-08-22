@@ -73,6 +73,13 @@ if (document.querySelector('.return-icon a')) {
     });
 }
 
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('clearBtn').addEventListener('click', function() {
+        console.log('Botão Limpar clicado');
+        document.getElementById('depositValue').value = '';
+    });
+});
+
 // Funcionalidade de depósito
 document.getElementById('depositBtn').addEventListener('click', function() {
     window.location.href = "/deposito";
