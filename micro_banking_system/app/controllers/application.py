@@ -5,9 +5,12 @@ class Application():
 
     def __init__(self):
         self.pages = {
-            'index': self.index,
-            'register': self.register,
-            'home': self.home
+        'index': self.index,
+        'register': self.register,
+        'home': self.home,
+        'deposit': self.deposit,
+        'withdraw': self.withdraw,
+        'transfer': self.transfer
         }
         self.__model = DataRecord()
 
@@ -22,6 +25,15 @@ class Application():
 
     def index(self):
         return template('app/views/html/index')
+    
+    def deposit(self):
+        return template('app/views/html/deposito')
+
+    def withdraw(self):
+        return template('app/views/html/saque')
+
+    def transfer(self):
+        return template('app/views/html/transferencia')
 
     def home(self, bank_account_id):
         if self.is_authenticated(bank_account_id):

@@ -71,5 +71,21 @@ def action_index():
 def logout():
     ctl.logout_user()
 
+# Rota para a página de depósito
+@app.route('/deposito', method='GET')
+def deposito():
+    return ctl.render('deposit')
+
+# Rota para a página de saque
+@app.route('/saque', method='GET')
+def saque():
+    return ctl.render('withdraw')
+
+# Rota para a página de transferência
+@app.route('/transferencia', method='GET')
+def transferencia():
+    return ctl.render('transfer')
+
+
 if __name__ == '__main__':
-    run(app, host='localhost', port=7010, debug=True)
+    run(app, host='localhost', port=7030, debug=True)
