@@ -166,6 +166,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const error = urlParams.get('error');
+    
+    if (error === 'email_exists') {
+        alert('O e-mail informado já está registrado. Por favor, use outro e-mail.');
+    }
+});
 
 // Funcionalidade de depósito
 document.getElementById('depositBtn').addEventListener('click', function() {
