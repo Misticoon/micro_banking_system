@@ -54,6 +54,25 @@ if (document.getElementById('logoutBtn')) {
 }
 
 
+// Verificação para o formulário de login
+// ... (outros scripts existentes)
+
+// Verifique se o botão de Home está presente na página
+if (document.querySelector('.home-icon a')) {
+    document.querySelector('.home-icon a').addEventListener('click', function(event) {
+        event.preventDefault(); // Impede o comportamento padrão do link
+        window.location.href = "/home"; // Redireciona para /home
+    });
+}
+
+// Verifica se o ícone de retorno está presente na página
+if (document.querySelector('.return-icon a')) {
+    document.querySelector('.return-icon a').addEventListener('click', function(event) {
+        event.preventDefault(); // Impede o comportamento padrão do link
+        window.location.href = "/"; // Redireciona para /index
+    });
+}
+
 // Funcionalidade de depósito
 document.getElementById('depositBtn').addEventListener('click', function() {
     window.location.href = "/deposito";

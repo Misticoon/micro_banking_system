@@ -53,9 +53,9 @@ def email_exists():
 
 # Outras rotas do aplicativo
 
-@app.route('/home/<bank_account_id>', method='GET')
-def action_home(bank_account_id=None):
-    return ctl.render('home', bank_account_id)
+@app.route('/home', method='GET')
+def action_home():
+    return ctl.render('home')
 
 @app.route('/index', method='GET')
 def login():
@@ -88,4 +88,4 @@ def transferencia():
 
 
 if __name__ == '__main__':
-    run(app, host='localhost', port=7064, debug=True)
+    run(app, host='localhost', port=8080, debug=True)

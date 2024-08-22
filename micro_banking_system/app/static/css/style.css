@@ -52,7 +52,8 @@ header {
     height: auto;    /* Mantém a proporção da imagem */
 }
 
-.home-icon {
+.home-icon,
+.return-icon {
     position: absolute;
     left: 20px;
 }
@@ -82,13 +83,17 @@ header h1 {
     right: 20px;
 }
 
-.logout-icon {
+.logout-icon,
+.home-icon,
+.return-icon {
     width: 30px;
     cursor: pointer;
     transition: transform 0.3s;
 }
 
-.logout-icon:hover {
+.logout-icon:hover,
+.home-icon:hover,
+.return-icon:hover {
     transform: scale(1.1);
 }
 

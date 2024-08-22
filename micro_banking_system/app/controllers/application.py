@@ -35,33 +35,35 @@ class Application():
     def transfer(self):
         return template('app/views/html/transferencia')
 
-    def home(self, bank_account_id):
+    def home(self):
         session_id = request.get_cookie('session_id')
         user = self.__model.getCurrentUser(session_id)
         if not user:
             redirect('/')
         return template('app/views/html/home', transfered=True, current_user=user)
 
+
     def deposit(self):
         session_id = request.get_cookie('session_id')
         user = self.__model.getCurrentUser(session_id)
         if not user:
             redirect('/')
-        return template('app/views/html/deposito')
+        return template('app/views/html/deposito', bank_account_id=user.bank_account_id)
+
 
     def withdraw(self):
         session_id = request.get_cookie('session_id')
         user = self.__model.getCurrentUser(session_id)
         if not user:
             redirect('/')
-        return template('app/views/html/saque')
+        return template('app/views/html/saque', bank_account_id=user.bank_account_id)
 
     def transfer(self):
         session_id = request.get_cookie('session_id')
         user = self.__model.getCurrentUser(session_id)
         if not user:
             redirect('/')
-        return template('app/views/html/transferencia')
+        return template('app/views/html/transferencia', bank_account_id=user.bank_account_id)
 
 
 
@@ -73,9 +75,8 @@ class Application():
     def authenticate_user(self, username, password):
         session_id = self.__model.checkUser(username, password)
         if session_id:
-            user = self.__model.getCurrentUser(session_id)
             response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
-            redirect(f'/home/{user.bank_account_id}')
+            redirect('/home')
         redirect('/')
 
     def logout_user(self):
