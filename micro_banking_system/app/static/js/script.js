@@ -39,12 +39,20 @@ if (document.getElementById('registerForm')) {
 
 // Função de Logout
 if (document.getElementById('logoutBtn')) {
-    document.getElementById('logoutBtn').addEventListener('click', function() {
-        alert("Você saiu da conta.");
-        // Redirecionar para a página de login
-        window.location.href = "/";
+    document.getElementById('logoutBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // Impede o comportamento padrão do link
+        fetch('/logout', { method: 'POST' })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/";
+                } else {
+                    alert("Erro ao tentar fazer logout. Tente novamente.");
+                }
+            })
+            .catch(error => console.error('Erro:', error));
     });
 }
+
 
 // Funcionalidade de depósito
 document.getElementById('depositBtn').addEventListener('click', function() {

@@ -88,4 +88,4 @@ def transferencia():
 
 
 if __name__ == '__main__':
-    run(app, host='localhost', port=7030, debug=True)
+    run(app, host='localhost', port=7064, debug=True)

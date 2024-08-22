@@ -36,11 +36,34 @@ class Application():
         return template('app/views/html/transferencia')
 
     def home(self, bank_account_id):
-        if self.is_authenticated(bank_account_id):
-            session_id = request.get_cookie('session_id')
-            user = self.__model.getCurrentUser(session_id)
-            return template('app/views/html/home', transfered=True, current_user=user)
-        return template('app/views/html/home', transfered=False)
+        session_id = request.get_cookie('session_id')
+        user = self.__model.getCurrentUser(session_id)
+        if not user:
+            redirect('/')
+        return template('app/views/html/home', transfered=True, current_user=user)
+
+    def deposit(self):
+        session_id = request.get_cookie('session_id')
+        user = self.__model.getCurrentUser(session_id)
+        if not user:
+            redirect('/')
+        return template('app/views/html/deposito')
+
+    def withdraw(self):
+        session_id = request.get_cookie('session_id')
+        user = self.__model.getCurrentUser(session_id)
+        if not user:
+            redirect('/')
+        return template('app/views/html/saque')
+
+    def transfer(self):
+        session_id = request.get_cookie('session_id')
+        user = self.__model.getCurrentUser(session_id)
+        if not user:
+            redirect('/')
+        return template('app/views/html/transferencia')
+
+
 
     def is_authenticated(self, bank_account_id):
         session_id = request.get_cookie('session_id')
@@ -59,7 +82,7 @@ class Application():
         session_id = request.get_cookie('session_id')
         self.__model.logout(session_id)
         response.delete_cookie('session_id')
-        redirect('/index')
+        redirect('/')
 
     def create_user(self, first_name, last_name, email, password, dob):
         if self.__model.email_exists(email):
