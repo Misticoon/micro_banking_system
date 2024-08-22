@@ -78,6 +78,33 @@ document.getElementById('depositBtn').addEventListener('click', function() {
     window.location.href = "/deposito";
 });
 
+// Funcionalidade de depósito
+document.getElementById('depositBtn').addEventListener('click', function() {
+    const depositValue = parseFloat(document.getElementById('depositValue').value);
+
+    if (depositValue > 0) {
+        fetch('/deposito', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ amount: depositValue })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Depósito realizado com sucesso!');
+                window.location.href = "/home";
+            } else {
+                alert('Erro ao realizar depósito: ' + data.message);
+            }
+        })
+        .catch(error => console.error('Erro:', error));
+    } else {
+        alert('Por favor, insira um valor válido para o depósito.');
+    }
+});
+
 // Funcionalidade de saque
 document.getElementById('withdrawBtn').addEventListener('click', function() {
     window.location.href = "/saque";

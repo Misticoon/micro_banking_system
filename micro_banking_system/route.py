@@ -76,6 +76,25 @@ def logout():
 def deposito():
     return ctl.render('deposit')
 
+@app.route('/deposito', method='POST')
+def process_deposit():
+    session_id = request.get_cookie('session_id')
+    user = ctl.get_current_user(session_id)
+    
+    if not user:
+        return {'success': False, 'message': 'Usuário não autenticado'}
+
+    deposit_data = request.json
+    deposit_amount = deposit_data.get('amount')
+
+    if deposit_amount and deposit_amount > 0:
+        user.balance += deposit_amount  # Supondo que o objeto `UserAccount` tenha um atributo `balance`
+        ctl.update_user(user)  # Supondo que haja um método para atualizar o usuário no banco de dados
+        return {'success': True}
+    else:
+        return {'success': False, 'message': 'Valor inválido para depósito'}
+
+
 # Rota para a página de saque
 @app.route('/saque', method='GET')
 def saque():

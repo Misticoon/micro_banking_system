@@ -65,6 +65,11 @@ class Application():
             redirect('/')
         return template('app/views/html/transferencia', bank_account_id=user.bank_account_id)
 
+    def get_current_user(self, session_id):
+        return self.__model.getCurrentUser(session_id)
+
+    def update_user(self, user):
+        self.__model.update_user(user)  # Implemente a atualização no `DataRecord`
 
 
     def is_authenticated(self, bank_account_id):
