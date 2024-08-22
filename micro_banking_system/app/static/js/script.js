@@ -74,11 +74,98 @@ if (document.querySelector('.return-icon a')) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('clearBtn').addEventListener('click', function() {
-        console.log('Botão Limpar clicado');
-        document.getElementById('depositValue').value = '';
-    });
+    const clearBtn = document.getElementById('clearBtn');
+    
+    if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+            console.log('Botão Limpar clicado');
+            
+            // Verifica em qual página estamos
+            if (document.body.classList.contains('transferencia')) {
+                document.getElementById('destinationAccount').value = '';
+                document.getElementById('transferValue').value = '';
+            } else if (document.body.classList.contains('saque')) {
+                document.getElementById('withdrawValue').value = '';
+            } else if (document.body.classList.contains('deposito')) {
+                document.getElementById('depositValue').value = '';
+            }
+        });
+    }
 });
+
+// Listener para o botão transferir
+document.addEventListener('DOMContentLoaded', function() {
+    const transferBtn = document.getElementById('transferBtn');
+
+    if (transferBtn) {
+        transferBtn.addEventListener('click', function() {
+            const destinationAccount = document.getElementById('destinationAccount').value;
+            const transferValue = parseFloat(document.getElementById('transferValue').value);
+
+            if (transferValue > 0 && destinationAccount) {
+                console.log('Iniciando a transferência...'); // Log para depuração
+                fetch('/transferencia', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ destinationAccount, amount: transferValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Transferência realizada com sucesso!');
+                        window.location.href = "/transferencia";
+                    } else {
+                        alert('Erro ao realizar transferência: ' + data.message);
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
+            } else {
+                alert('Por favor, insira um valor válido e uma conta de destino.');
+            }
+        });
+    } else {
+        console.error('Elemento transferBtn não encontrado na página.');
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const withdrawBtn = document.getElementById('withdrawBtn');
+
+    if (withdrawBtn) {
+        console.log('Botão Sacar encontrado e evento atribuído.');
+        withdrawBtn.addEventListener('click', function() {
+            const withdrawValue = parseFloat(document.getElementById('withdrawValue').value);
+
+            if (withdrawValue > 0) {
+                console.log('Iniciando saque...'); // Log para depuração
+                fetch('/saque', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ amount: withdrawValue })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Saque realizado com sucesso!');
+                        window.location.href = "/saque";
+                    } else {
+                        alert('Erro ao realizar saque: ' + data.message);
+                    }
+                })
+                .catch(error => console.error('Erro:', error));
+            } else {
+                alert('Por favor, insira um valor válido para o saque.');
+            }
+        });
+    } else {
+        console.error('Botão Sacar não encontrado.');
+    }
+});
+
 
 // Funcionalidade de depósito
 document.getElementById('depositBtn').addEventListener('click', function() {
@@ -101,7 +188,7 @@ document.getElementById('depositBtn').addEventListener('click', function() {
         .then(data => {
             if (data.success) {
                 alert('Depósito realizado com sucesso!');
-                window.location.href = "/home";
+                window.location.href = "/deposito";
             } else {
                 alert('Erro ao realizar depósito: ' + data.message);
             }
@@ -121,3 +208,4 @@ document.getElementById('withdrawBtn').addEventListener('click', function() {
 document.getElementById('transferBtn').addEventListener('click', function() {
     window.location.href = "/transferencia";
 });
+

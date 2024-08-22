@@ -105,6 +105,31 @@ def saque():
 def transferencia():
     return ctl.render('transfer')
 
+@app.route('/transferencia', method='POST')
+def action_transfer():
+    return ctl.process_transfer()
+
+@app.route('/saque', method='POST')
+def process_withdraw():
+    session_id = request.get_cookie('session_id')
+    user = ctl.get_current_user(session_id)
+    
+    if not user:
+        return {'success': False, 'message': 'Usuário não autenticado'}
+
+    withdraw_data = request.json
+    withdraw_amount = withdraw_data.get('amount')
+
+    if withdraw_amount and withdraw_amount > 0:
+        if user.balance >= withdraw_amount:
+            user.balance -= withdraw_amount
+            ctl.update_user(user)
+            return {'success': True}
+        else:
+            return {'success': False, 'message': 'Saldo insuficiente'}
+    else:
+        return {'success': False, 'message': 'Valor inválido para saque'}
+
 
 if __name__ == '__main__':
-    run(app, host='localhost', port=8004, debug=True)
+    run(app, host='localhost', port=7026, debug=True)

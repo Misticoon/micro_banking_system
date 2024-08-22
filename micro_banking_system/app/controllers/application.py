@@ -71,6 +71,45 @@ class Application():
     def update_user(self, user):
         self.__model.update_user(user)  # Implemente a atualização no `DataRecord`
 
+    def process_transfer(self):
+        session_id = request.get_cookie('session_id')
+        print(f"Session ID: {session_id}")  # Log para depuração
+        user = self.get_current_user(session_id)
+        
+        if not user:
+            print("Usuário não autenticado")  # Log para depuração
+            return {'success': False, 'message': 'Usuário não autenticado'}
+        
+        transfer_data = request.json
+        destination_account_id = transfer_data.get('destinationAccount')
+        amount = transfer_data.get('amount')
+
+        print(f"Transfer data: {transfer_data}")  # Log para depuração
+
+        if amount <= 0:
+            return {'success': False, 'message': 'Valor inválido para transferência'}
+
+        if user.balance < amount:
+            print("Saldo insuficiente")  # Log para depuração
+            return {'success': False, 'message': 'Saldo insuficiente'}
+
+        if user.bank_account_id == destination_account_id:
+            return {'success': False, 'message': 'Não é possível transferir para a própria conta'}
+
+        destination_user = next((u for u in self.__model._DataRecord__user_accounts if u.bank_account_id == destination_account_id), None)
+
+        if not destination_user:
+            return {'success': False, 'message': 'Conta de destino não encontrada'}
+
+        user.balance -= amount
+        destination_user.balance += amount
+
+        self.update_user(user)
+        self.update_user(destination_user)
+
+        return {'success': True}
+
+
 
     def is_authenticated(self, bank_account_id):
         session_id = request.get_cookie('session_id')
