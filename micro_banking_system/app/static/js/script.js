@@ -7,37 +7,80 @@ if (document.getElementById('loginForm')) {
 
         const form = document.getElementById('loginForm');
         form.submit(); // Submete o formulário ao backend para autenticação
-
     });
 
     document.getElementById('registerBtn').addEventListener('click', function() {
         window.location.href = "/register";
     });
+
+    // Verificação de erro de login através do cookie
+    document.addEventListener('DOMContentLoaded', function() {
+        // Função para obter o valor de um cookie específico
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        const loginError = getCookie('login_error');
+
+        if (loginError) {
+            alert('Falha no login. Verifique suas credenciais e tente novamente.');
+
+            // Remove o cookie após mostrar o alerta
+            document.cookie = "login_error=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+    });
 }
+
 
 // Verificação para o formulário de registro
 if (document.getElementById('registerForm')) {
     document.getElementById('registerForm').addEventListener('submit', function(event) {
-        // Obter valores dos campos do formulário
         const registerEmail = document.getElementById('registerEmail').value;
+        const registerPassword = document.getElementById('registerPassword').value;
+        const registerConfirmPassword = document.getElementById('registerConfirmPassword').value;
+        const registerDob = new Date(document.getElementById('registerDob').value);
+        const today = new Date();
         
-        // Verificação se o email já existe no "banco de dados"
-        const emailExists = users.some(function(user) {
-            return user.email === registerEmail;
-        });
+        // Cálculo da idade
+        let age = today.getFullYear() - registerDob.getFullYear();
+        const monthDiff = today.getMonth() - registerDob.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < registerDob.getDate())) {
+            age--;
+        }
 
-        if (emailExists) {
-            alert('O email informado já está registrado. Por favor, use outro email.');
-            event.preventDefault(); // Impede o envio do formulário se o email já existir
-            return;
-        } else {
-            alert("Registro realizado com sucesso! Avançando para a próxima etapa.");
+        // Verifica se as senhas são iguais
+        if (registerPassword !== registerConfirmPassword) {
+            alert('As senhas não coincidem. Por favor, verifique e tente novamente.');
+            event.preventDefault();
             return;
         }
 
-        // Outras validações...
+        // Verifica se o usuário tem pelo menos 18 anos
+        if (age < 18) {
+            alert('Você deve ter pelo menos 18 anos para se registrar.');
+            event.preventDefault();
+            return;
+        }
+
+        // Verificação do email já existente é feita no servidor, exibido no frontend
+        event.preventDefault();
+        fetch(`/email_exists?email=${encodeURIComponent(registerEmail)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    alert('O email informado já está registrado. Por favor, use outro email.');
+                } else {
+                    alert('Cadastro realizado com sucesso!');
+                    document.getElementById('registerForm').submit();
+                }
+            })
+            .catch(error => console.error('Erro:', error));
     });
 }
+
+
 
 
 // Função de Logout
@@ -170,43 +213,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Botão Sacar não encontrado.');
     }
 });
-
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const error = urlParams.get('error');
-    
-    if (error === 'email_exists') {
-        alert('O e-mail informado já está registrado. Por favor, use outro e-mail.');
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Função para obter o valor de um cookie específico
-    function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    }
-
-    const loginError = getCookie('login_error');
-
-    if (loginError) {
-        alert('Falha no login. Verifique suas credenciais e tente novamente.');
-
-        // Remove o cookie após mostrar o alerta
-        document.cookie = "login_error=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const registered = urlParams.get('registered');
-    
-    if (registered === 'true') {
-        alert('Cadastro realizado com sucesso!');
-    }
-});
-
 
 // Funcionalidade de depósito
 document.getElementById('depositBtn').addEventListener('click', function() {
