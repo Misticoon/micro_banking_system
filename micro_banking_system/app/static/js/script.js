@@ -175,6 +175,34 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Função para obter o valor de um cookie específico
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    const loginError = getCookie('login_error');
+
+    if (loginError) {
+        alert('Falha no login. Verifique suas credenciais e tente novamente.');
+
+        // Remove o cookie após mostrar o alerta
+        document.cookie = "login_error=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const registered = urlParams.get('registered');
+    
+    if (registered === 'true') {
+        alert('Cadastro realizado com sucesso!');
+    }
+});
+
+
 // Funcionalidade de depósito
 document.getElementById('depositBtn').addEventListener('click', function() {
     window.location.href = "/deposito";

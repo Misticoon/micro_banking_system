@@ -121,7 +121,10 @@ class Application():
         if session_id:
             response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
             redirect('/home')
-        redirect('/')
+        else:
+            response.set_cookie('login_error', '1', max_age=10)
+            redirect('/')
+
 
     def logout_user(self):
         session_id = request.get_cookie('session_id')
@@ -133,8 +136,16 @@ class Application():
         if self.__model.email_exists(email):
             redirect('/register?error=email_exists')
         else:
+            # Cria o usuário
             self.__model.book(first_name, last_name, email, password)
-            redirect('/')
+            
+            # Autentica o usuário imediatamente
+            session_id = self.__model.checkUser(email, password)
+            response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
+            
+            # Redireciona para a página home do usuário logado com parâmetro registered=true
+            redirect('/home?registered=true')
+
 
     def email_exists(self, email):
         return self.__model.email_exists(email)
