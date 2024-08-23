@@ -42,7 +42,6 @@ class Application():
             redirect('/')
         return template('app/views/html/home', transfered=True, current_user=user)
 
-
     def deposit(self):
         session_id = request.get_cookie('session_id')
         user = self.__model.getCurrentUser(session_id)
