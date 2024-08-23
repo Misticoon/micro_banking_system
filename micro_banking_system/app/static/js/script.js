@@ -30,6 +30,9 @@ if (document.getElementById('registerForm')) {
             alert('O email informado já está registrado. Por favor, use outro email.');
             event.preventDefault(); // Impede o envio do formulário se o email já existir
             return;
+        } else {
+            alert("Registro realizado com sucesso! Avançando para a próxima etapa.");
+            return;
         }
 
         // Outras validações...
@@ -44,6 +47,7 @@ if (document.getElementById('logoutBtn')) {
         fetch('/logout', { method: 'POST' })
             .then(response => {
                 if (response.ok) {
+                    alert("Você saiu com sucesso!"); // Mensagem de sucesso
                     window.location.href = "/";
                 } else {
                     alert("Erro ao tentar fazer logout. Tente novamente.");
@@ -52,6 +56,7 @@ if (document.getElementById('logoutBtn')) {
             .catch(error => console.error('Erro:', error));
     });
 }
+
 
 
 // Verificação para o formulário de login
@@ -209,31 +214,35 @@ document.getElementById('depositBtn').addEventListener('click', function() {
 });
 
 // Funcionalidade de depósito
-document.getElementById('depositBtn').addEventListener('click', function() {
-    const depositValue = parseFloat(document.getElementById('depositValue').value);
+// Função de Depósito
+if (document.getElementById('depositBtn')) {
+    document.getElementById('depositBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // Impede o comportamento padrão do botão
+        const depositValue = parseFloat(document.getElementById('depositValue').value);
 
-    if (depositValue > 0) {
-        fetch('/deposito', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ amount: depositValue })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Depósito realizado com sucesso!');
-                window.location.href = "/deposito";
-            } else {
-                alert('Erro ao realizar depósito: ' + data.message);
-            }
-        })
-        .catch(error => console.error('Erro:', error));
-    } else {
-        alert('Por favor, insira um valor válido para o depósito.');
-    }
-});
+        if (depositValue > 0) {
+            fetch('/deposito', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: depositValue })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Depósito realizado com sucesso!"); // Mensagem de sucesso
+                    window.location.href = "/deposito";
+                } else {
+                    alert('Erro ao realizar depósito: ' + data.message);
+                }
+            })
+            .catch(error => console.error('Erro:', error));
+        } else {
+            alert('Por favor, insira um valor válido para o depósito.');
+        }
+    });
+}
 
 // Funcionalidade de saque
 document.getElementById('withdrawBtn').addEventListener('click', function() {
