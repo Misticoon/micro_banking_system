@@ -99,4 +99,4 @@ def process_deposit():
     return ctl.process_deposit()
 
 if __name__ == '__main__':
-    run(app, host='localhost', port=8779, debug=True)
+    run(app, host='localhost', port=7654, debug=True)

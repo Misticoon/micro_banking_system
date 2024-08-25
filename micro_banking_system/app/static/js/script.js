@@ -33,7 +33,6 @@ if (document.getElementById('loginForm')) {
     });
 }
 
-
 // Verificação para o formulário de registro
 if (document.getElementById('registerForm')) {
     document.getElementById('registerForm').addEventListener('submit', function(event) {
@@ -80,9 +79,6 @@ if (document.getElementById('registerForm')) {
     });
 }
 
-
-
-
 // Função de Logout
 if (document.getElementById('logoutBtn')) {
     document.getElementById('logoutBtn').addEventListener('click', function(event) {
@@ -99,11 +95,6 @@ if (document.getElementById('logoutBtn')) {
             .catch(error => console.error('Erro:', error));
     });
 }
-
-
-
-// Verificação para o formulário de login
-// ... (outros scripts existentes)
 
 // Verifique se o botão de Home está presente na página
 if (document.querySelector('.home-icon a')) {
@@ -244,7 +235,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
 
 // Funcionalidade de depósito
 document.getElementById('depositPageBtn').addEventListener('click', function() {
