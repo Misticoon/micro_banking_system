@@ -69,44 +69,6 @@ class Application():
     def update_user(self, user):
         self.__model.update_user(user)  # Implemente a atualização no `DataRecord`
 
-    def process_transfer(self):
-        session_id = request.get_cookie('session_id')
-        print(f"Session ID: {session_id}")  # Log para depuração
-        user = self.get_current_user(session_id)
-        
-        if not user:
-            print("Usuário não autenticado")  # Log para depuração
-            return {'success': False, 'message': 'Usuário não autenticado'}
-        
-        transfer_data = request.json
-        destination_account_id = transfer_data.get('destinationAccount')
-        amount = transfer_data.get('amount')
-
-        print(f"Transfer data: {transfer_data}")  # Log para depuração
-
-        if amount <= 0:
-            return {'success': False, 'message': 'Valor inválido para transferência'}
-
-        if user.balance < amount:
-            print("Saldo insuficiente")  # Log para depuração
-            return {'success': False, 'message': 'Saldo insuficiente'}
-
-        if user.bank_account_id == destination_account_id:
-            return {'success': False, 'message': 'Não é possível transferir para a própria conta'}
-
-        destination_user = next((u for u in self.__model._DataRecord__user_accounts if u.bank_account_id == destination_account_id), None)
-
-        if not destination_user:
-            return {'success': False, 'message': 'Conta de destino não encontrada'}
-
-        user.balance -= amount
-        destination_user.balance += amount
-
-        self.update_user(user)
-        self.update_user(destination_user)
-
-        return {'success': True}
-
     def is_authenticated(self, bank_account_id):
         session_id = request.get_cookie('session_id')
         current_user = self.__model.getCurrentUser(session_id)
@@ -142,6 +104,15 @@ class Application():
             # Redireciona para a página home do usuário logado com parâmetro registered=true
             redirect('/home?registered=true')
 
+
+    def email_exists(self, email):
+        return self.__model.email_exists(email)
+
+    def format_balance(self, balance):
+        if balance.is_integer():
+            return int(balance)
+        return round(balance, 2)
+
     def process_deposit(self):
         session_id = request.get_cookie('session_id')
         user = self.get_current_user(session_id)
@@ -154,11 +125,70 @@ class Application():
         
         if deposit_amount and deposit_amount > 0:
             user.balance += deposit_amount
+            user.balance = self.format_balance(user.balance)
             self.update_user(user)
             return {'success': True, 'new_balance': user.balance}
         else:
             return {'success': False, 'message': 'Valor inválido para depósito'}
 
+    def process_transfer(self):
+        session_id = request.get_cookie('session_id')
+        print(f"Session ID: {session_id}")  # Log para depuração
+        user = self.get_current_user(session_id)
+        
+        if not user:
+            print("Usuário não autenticado")  # Log para depuração
+            return {'success': False, 'message': 'Usuário não autenticado'}
+        
+        transfer_data = request.json
+        destination_account_id = transfer_data.get('destinationAccount')
+        amount = transfer_data.get('amount')
 
-    def email_exists(self, email):
-        return self.__model.email_exists(email)
+        print(f"Transfer data: {transfer_data}")  # Log para depuração
+
+        if amount <= 0:
+            return {'success': False, 'message': 'Valor inválido para transferência'}
+
+        if user.balance < amount:
+            print("Saldo insuficiente")  # Log para depuração
+            return {'success': False, 'message': 'Saldo insuficiente'}
+
+        if user.bank_account_id == destination_account_id:
+            return {'success': False, 'message': 'Não é possível transferir para a própria conta'}
+
+        destination_user = next((u for u in self.__model._DataRecord__user_accounts if u.bank_account_id == destination_account_id), None)
+
+        if not destination_user:
+            return {'success': False, 'message': 'Conta de destino não encontrada'}
+
+        user.balance -= amount
+        destination_user.balance += amount
+
+        user.balance = self.format_balance(user.balance)  # Formatar o saldo
+        destination_user.balance = self.format_balance(destination_user.balance)
+
+        self.update_user(user)
+        self.update_user(destination_user)
+
+        return {'success': True}
+
+    def process_withdraw(self):
+        session_id = request.get_cookie('session_id')
+        user = self.get_current_user(session_id)
+        
+        if not user:
+            return {'success': False, 'message': 'Usuário não autenticado'}
+
+        withdraw_data = request.json
+        withdraw_amount = withdraw_data.get('amount')
+
+        if withdraw_amount and withdraw_amount > 0:
+            if user.balance >= withdraw_amount:
+                user.balance -= withdraw_amount
+                user.balance = self.format_balance(user.balance)
+                self.update_user(user)
+                return {'success': True}
+            else:
+                return {'success': False, 'message': 'Saldo insuficiente'}
+        else:
+            return {'success': False, 'message': 'Valor inválido para saque'}
