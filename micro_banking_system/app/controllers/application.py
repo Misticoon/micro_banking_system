@@ -20,20 +20,11 @@ class Application():
             return content(identifier)
         return content()
 
-    def register(self):
-        return template('app/views/html/register')
-
     def index(self):
         return template('app/views/html/index')
-    
-    def deposit(self):
-        return template('app/views/html/deposito')
 
-    def withdraw(self):
-        return template('app/views/html/saque')
-
-    def transfer(self):
-        return template('app/views/html/transferencia')
+    def register(self):
+        return template('app/views/html/register')
 
     def home(self):
         session_id = request.get_cookie('session_id')
@@ -83,7 +74,6 @@ class Application():
             response.set_cookie('login_error', '1', max_age=10)
             redirect('/')
 
-
     def logout_user(self):
         session_id = request.get_cookie('session_id')
         self.__model.logout(session_id)
@@ -104,15 +94,6 @@ class Application():
             # Redireciona para a página home do usuário logado com parâmetro registered=true
             redirect('/home?registered=true')
 
-
-    def email_exists(self, email):
-        return self.__model.email_exists(email)
-
-    def format_balance(self, balance):
-        if balance.is_integer():
-            return int(balance)
-        return round(balance, 2)
-
     def process_deposit(self):
         session_id = request.get_cookie('session_id')
         user = self.get_current_user(session_id)
@@ -125,11 +106,30 @@ class Application():
         
         if deposit_amount and deposit_amount > 0:
             user.balance += deposit_amount
-            user.balance = self.format_balance(user.balance)
             self.update_user(user)
             return {'success': True, 'new_balance': user.balance}
         else:
             return {'success': False, 'message': 'Valor inválido para depósito'}
+
+    def process_withdraw(self):
+        session_id = request.get_cookie('session_id')
+        user = self.get_current_user(session_id)
+        
+        if not user:
+            return {'success': False, 'message': 'Usuário não autenticado'}
+
+        withdraw_data = request.json
+        withdraw_amount = withdraw_data.get('amount')
+
+        if withdraw_amount and withdraw_amount > 0:
+            if user.balance >= withdraw_amount:
+                user.balance -= withdraw_amount
+                self.update_user(user)
+                return {'success': True}
+            else:
+                return {'success': False, 'message': 'Saldo insuficiente'}
+        else:
+            return {'success': False, 'message': 'Valor inválido para saque'}
 
     def process_transfer(self):
         session_id = request.get_cookie('session_id')
@@ -164,31 +164,10 @@ class Application():
         user.balance -= amount
         destination_user.balance += amount
 
-        user.balance = self.format_balance(user.balance)  # Formatar o saldo
-        destination_user.balance = self.format_balance(destination_user.balance)
-
         self.update_user(user)
         self.update_user(destination_user)
 
         return {'success': True}
 
-    def process_withdraw(self):
-        session_id = request.get_cookie('session_id')
-        user = self.get_current_user(session_id)
-        
-        if not user:
-            return {'success': False, 'message': 'Usuário não autenticado'}
-
-        withdraw_data = request.json
-        withdraw_amount = withdraw_data.get('amount')
-
-        if withdraw_amount and withdraw_amount > 0:
-            if user.balance >= withdraw_amount:
-                user.balance -= withdraw_amount
-                user.balance = self.format_balance(user.balance)
-                self.update_user(user)
-                return {'success': True}
-            else:
-                return {'success': False, 'message': 'Saldo insuficiente'}
-        else:
-            return {'success': False, 'message': 'Valor inválido para saque'}
+    def email_exists(self, email):
+        return self.__model.email_exists(email)
