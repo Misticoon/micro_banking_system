@@ -76,31 +76,6 @@ def logout():
 def deposito():
     return ctl.render('deposit')
 
-@app.route('/deposito', method='POST')
-def process_deposit():
-    session_id = request.get_cookie('session_id')
-    user = ctl.get_current_user(session_id)
-    
-    if not user:
-        print("Usuário não autenticado")
-        return {'success': False, 'message': 'Usuário não autenticado'}
-
-    deposit_data = request.json
-    print(f"Dados recebidos: {deposit_data}")
-    
-    deposit_amount = deposit_data.get('amount')
-
-    if deposit_amount and deposit_amount > 0:
-        user.balance += deposit_amount  # Adiciona o valor do depósito ao saldo do usuário
-        ctl.update_user(user)  # Salva a atualização no banco de dados
-        print("Depósito realizado com sucesso!")
-        return {'success': True, 'message': 'Depósito realizado com sucesso!'}
-    else:
-        print("Valor inválido para depósito")
-        return {'success': False, 'message': 'Valor inválido para depósito'}
-
-
-
 # Rota para a página de saque
 @app.route('/saque', method='GET')
 def saque():
@@ -136,6 +111,9 @@ def process_withdraw():
     else:
         return {'success': False, 'message': 'Valor inválido para saque'}
 
+@app.route('/deposito', method='POST')
+def process_deposit():
+    return ctl.process_deposit()
 
 if __name__ == '__main__':
-    run(app, host='localhost', port=8080, debug=True)
+    run(app, host='localhost', port=9030, debug=True)

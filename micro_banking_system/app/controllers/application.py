@@ -49,7 +49,6 @@ class Application():
             redirect('/')
         return template('app/views/html/deposito', bank_account_id=user.bank_account_id)
 
-
     def withdraw(self):
         session_id = request.get_cookie('session_id')
         user = self.__model.getCurrentUser(session_id)
@@ -108,8 +107,6 @@ class Application():
 
         return {'success': True}
 
-
-
     def is_authenticated(self, bank_account_id):
         session_id = request.get_cookie('session_id')
         current_user = self.__model.getCurrentUser(session_id)
@@ -144,6 +141,23 @@ class Application():
             
             # Redireciona para a página home do usuário logado com parâmetro registered=true
             redirect('/home?registered=true')
+
+    def process_deposit(self):
+        session_id = request.get_cookie('session_id')
+        user = self.get_current_user(session_id)
+        
+        if not user:
+            return {'success': False, 'message': 'Usuário não autenticado'}
+        
+        deposit_data = request.json
+        deposit_amount = deposit_data.get('amount')
+        
+        if deposit_amount and deposit_amount > 0:
+            user.balance += deposit_amount
+            self.update_user(user)
+            return {'success': True, 'new_balance': user.balance}
+        else:
+            return {'success': False, 'message': 'Valor inválido para depósito'}
 
 
     def email_exists(self, email):
