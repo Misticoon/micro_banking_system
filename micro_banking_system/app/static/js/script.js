@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else {
                         alert('Erro ao realizar depósito: ' + data.message);
                     }
-                    window.location.href = "/deposito";
+                    window.location.href = "/home";
                 })
                 .catch(error => {
                     console.error('Erro:', error);
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else {
                         alert('Erro ao realizar saque: ' + data.message);
                     }
-                    window.location.href = "/saque";
+                    window.location.href = "/home";
                 })
                 .catch(error => {
                     console.error('Erro:', error);
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else {
                         alert('Erro ao realizar transferência: ' + data.message);
                     }
-                    window.location.href = "/transferencia";
+                    window.location.href = "/home";
                 })
                 .catch(error => {
                     console.error('Erro:', error);

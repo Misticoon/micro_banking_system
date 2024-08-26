@@ -98,11 +98,6 @@ class Application():
     def email_exists(self, email):
         return self.__model.email_exists(email)
 
-    def format_balance(self, balance):
-        if isinstance(balance, float) and balance.is_integer():
-            return int(balance)
-        return round(balance, 2)
-
     def process_deposit(self):
         session_id = request.get_cookie('session_id')
         user = self.get_current_user(session_id)
@@ -115,7 +110,7 @@ class Application():
 
         if deposit_amount and deposit_amount > 0:
             user.balance += deposit_amount
-            user.balance = self.format_balance(user.balance)  # Formatar o saldo
+            user.balance = round(user.balance, 2)  # Formatar o saldo
             self.update_user(user)
             return {'success': True, 'new_balance': user.balance}
         else:
@@ -134,7 +129,7 @@ class Application():
         if withdraw_amount and withdraw_amount > 0:
             if user.balance >= withdraw_amount:
                 user.balance -= withdraw_amount
-                user.balance = self.format_balance(user.balance)  # Formatar o saldo
+                user.balance = round(user.balance, 2)  # Formatar o saldo
                 self.update_user(user)
                 return {'success': True, 'new_balance': user.balance}
             else:
@@ -170,8 +165,8 @@ class Application():
         user.balance -= amount
         destination_user.balance += amount
 
-        user.balance = self.format_balance(user.balance)  # Formatar o saldo
-        destination_user.balance = self.format_balance(destination_user.balance)  # Formatar o saldo
+        user.balance = round(user.balance, 2)  # Formatar o saldo
+        destination_user.balance = round(destination_user.balance, 2)  # Formatar o saldo
         
         self.update_user(user)
         self.update_user(destination_user)

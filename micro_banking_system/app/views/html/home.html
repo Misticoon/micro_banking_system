@@ -22,8 +22,7 @@
                     <p><strong>{{current_user.first_name}} {{current_user.last_name}}</strong></p>
                     <p><strong>{{current_user.bank_account_id}}</strong></p>
                 </div>
-                <p class="balance"><strong>R$ {{current_user.balance}}</strong></p>
-            </div>
+                <p class="balance"><strong>R$ {{ "{:,.2f}".format(current_user.balance).replace(',', 'X').replace('.', ',').replace('X', '.') }}</strong></p>            </div>
             <div class="buttons-container">
                 <button type="button" id="depositPageBtn">DEPÓSITO</button>
                 <button type="button" id="withdrawPageBtn">SAQUE</button>
