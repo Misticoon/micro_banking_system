@@ -3,10 +3,14 @@
 import random
 import string
 
-class UserAccount():
-    def __init__(self, first_name, last_name, username, password, balance=0, bank_account_id=None):
+class Person:
+    def __init__(self, first_name, last_name, dob=None):
         self.first_name = first_name
         self.last_name = last_name
+
+class UserAccount(Person):
+    def __init__(self, first_name, last_name, username, password, dob=None, balance=0, bank_account_id=None):
+        super().__init__(first_name, last_name, dob)
         self.username = username
         self.password = password
         self.balance = balance
