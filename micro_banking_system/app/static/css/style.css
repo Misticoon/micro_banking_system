@@ -362,46 +362,25 @@ header h1 {
     font-size: 16px;
 }
 
-.buttons-container button,
+/* Estilos gerais para todos os botões */
 button {
     background-color: #007BFF; /* Azul padrão */
     color: white;
     cursor: pointer;
-}
-
-button {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
+    border: 1px solid transparent;
 }
 
-.register button {
-    margin-top: 20px;
-    border: none;
-}
-
-button:hover,
-.buttons-container button:hover {
+button:hover {
     background-color: #0056b3;
 }
 
-.index .buttons-container,
-.register .buttons-container,
-.home .buttons-container {
-    display: flex;
-    justify-content: space-between;
-}
-
-.saque .buttons-container,
-.deposito .buttons-container,
-.transferencia .buttons-container {
-    margin-top: 20px;
-}
-
+/* Estilos específicos para botões dentro de .buttons-container */
 .buttons-container button {
     width: 30%;
     border: 1px solid #ccc;
-    border-radius: 5px;
 }
 
 .index .buttons-container button,
@@ -416,4 +395,24 @@ button:hover,
 .transferencia .buttons-container button {
     padding: 10px 20px;
     margin: 0 10px;
+}
+
+/* Containers de botões em diferentes seções */
+.index .buttons-container,
+.register .buttons-container,
+.home .buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.saque .buttons-container,
+.deposito .buttons-container,
+.transferencia .buttons-container {
+    margin-top: 20px;
+}
+
+/* Estilo específico para o botão dentro de .register */
+.register button {
+    margin-top: 20px;
+    border: none;
 }
