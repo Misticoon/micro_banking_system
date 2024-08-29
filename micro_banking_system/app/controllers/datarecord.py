@@ -8,7 +8,7 @@ class DataRecord():
     def __init__(self):
         # Inicializa as listas de contas de usuários e usuários autenticados
         self.__user_accounts = []
-        self.__authenticated_users = {}
+        self.__authenticated_user = None
         self.read()  # Carrega os dados do arquivo JSON
 
     def read(self):
@@ -30,9 +30,9 @@ class DataRecord():
             json.dump(user_data, arquivo_json)  # Salva os dados atualizados no arquivo JSON
 
     def getCurrentUser(self, session_id):
-        # Retorna o usuário atual com base no ID de sessão
-        if session_id in self.__authenticated_users:
-            return self.__authenticated_users[session_id]
+        # Verifica se há um usuário autenticado
+        if self.__authenticated_user and session_id:
+            return self.__authenticated_user
         return None
 
     def update_user(self, user):
@@ -46,18 +46,15 @@ class DataRecord():
             json.dump(user_data, arquivo_json)  # Salva os dados atualizados no arquivo JSON
 
     def checkUser(self, username, password):
-        # Verifica se o nome de usuário e a senha correspondem a um usuário registrado
         for user in self.__user_accounts:
             if user.username == username and user.password == password:
-                session_id = str(uuid.uuid4())  # Gera um novo ID de sessão
-                self.__authenticated_users[session_id] = user  # Associa o ID de sessão ao usuário autenticado
-                return session_id
-        return None
+                session_id = str(uuid.uuid4())  # Gera um ID de sessão como string
+                self.__authenticated_user = user  # Associa o usuário autenticado
+                return session_id  # Retorna o ID de sessão como string
+        return None  # Retorna None se a autenticação falhar
 
-    def logout(self, session_id):
-        # Remove o usuário autenticado da lista de usuários autenticados com base no ID de sessão
-        if session_id in self.__authenticated_users:
-            del self.__authenticated_users[session_id]
+    def logout(self):
+        self.__authenticated_user = None  # Remove a associação com o usuário autenticado
 
     def email_exists(self, email):
         # Verifica se o email (nome de usuário) já está registrado
