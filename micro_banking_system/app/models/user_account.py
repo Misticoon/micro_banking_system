@@ -8,6 +8,8 @@ class Person:
         # Inicializa uma nova instância de uma pessoa com nome, sobrenome e data de nascimento opcional
         self.first_name = first_name
         self.last_name = last_name
+        self.dob = dob  # Atribuindo o atributo dob à instância
+
 
 class UserAccount(Person):
     # Classe que representa uma conta de usuário, herda de Person
