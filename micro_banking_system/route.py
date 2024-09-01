@@ -82,6 +82,12 @@ def logout():
     # Encerra a sessão do usuário
     ctl.logout_user()
 
+# Rota para a página de configurações (GET)
+@app.route('/settings', method='GET')
+def settings():
+    # Exibe a página de configurações
+    return ctl.render('settings')
+
 # Rota para a página de depósito (GET)
 @app.route('/deposito', method='GET')
 def deposito():

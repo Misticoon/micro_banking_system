@@ -43,7 +43,8 @@ body {
     max-width: 1200px;
 }
 
-.register .container {
+.register .container,
+.settings .container {
     /* Define a largura e a largura máxima para o contêiner na página de registro */
     width: 50%;
     max-width: 600px;
@@ -58,10 +59,38 @@ header {
     position: relative;
 }
 
+.logout {
+    right: 20px;
+    position: absolute;
+}
+
+.config {
+    right: 70px;
+    position: absolute;
+}
+
 .logo {
     /* Define o tamanho máximo e a altura automática da logo para manter a proporção */
     max-width: 10%;
     height: auto;
+}
+
+.logout-icon,
+.home-icon,
+.return-icon,
+.config-icon {
+    /* Define o tamanho e o comportamento ao passar o mouse sobre os ícones */
+    width: 30px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.logout-icon:hover,
+.home-icon:hover,
+.return-icon:hover,
+.config-icon:hover {
+    /* Aumenta levemente o tamanho dos ícones ao passar o mouse */
+    transform: scale(1.1);
 }
 
 .home-icon,
@@ -78,7 +107,8 @@ header h1 {
 }
 
 .index header h1,
-.register header h1, 
+.register header h1,
+.settings header h1, 
 .home header h1 {
     /* Define a largura, preenchimento e cor do título nas páginas de índice, registro e home */
     width: 100%;
@@ -94,29 +124,8 @@ header h1 {
     flex-grow: 1;
 }
 
-.logout {
-    /* Posiciona o botão de logout à direita no cabeçalho */
-    position: absolute;
-    right: 20px;
-}
-
-.logout-icon,
-.home-icon,
-.return-icon {
-    /* Define o tamanho e o comportamento ao passar o mouse sobre os ícones */
-    width: 30px;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.logout-icon:hover,
-.home-icon:hover,
-.return-icon:hover {
-    /* Aumenta levemente o tamanho dos ícones ao passar o mouse */
-    transform: scale(1.1);
-}
-
 .register main,
+.settings main,
 .home main,
 .saque main,
 .deposito main,
@@ -400,6 +409,10 @@ header h1 {
     border-radius: 10px;
 }
 
+.settings .form-container {
+    margin-bottom: 20px;
+}
+
 .form-group {
     /* Define o layout de grupo de formulários */
     margin-bottom: 15px;
@@ -429,12 +442,25 @@ button {
     width: 100%;
     padding: 10px;
     border-radius: 5px;
+}
+
+.settings .btn-danger {
+    background-color: #FF4A4A;
+    color: white;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
     border: 1px solid transparent;
 }
 
 button:hover {
     /* Altera a cor de fundo ao passar o mouse sobre o botão */
     background-color: #0056b3;
+}
+
+.settings .btn-danger:hover {
+    background-color: #D93737;
 }
 
 .buttons-container button {
@@ -444,7 +470,6 @@ button:hover {
 }
 
 .index .buttons-container button,
-.register .buttons-container button,
 .home .buttons-container button {
     /* Estilos específicos para botões nas páginas de índice, registro e home */
     padding: 15px;
@@ -474,8 +499,10 @@ button:hover {
     margin-top: 20px;
 }
 
-.register button {
+.register button,
+.settings .btn-primary {
     /* Estilo específico para o botão dentro de .register */
     margin-top: 20px;
     border: none;
 }
+

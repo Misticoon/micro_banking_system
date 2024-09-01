@@ -11,7 +11,8 @@ class Application():
             'home': self.home,
             'deposit': self.deposit,
             'withdraw': self.withdraw,
-            'transfer': self.transfer
+            'transfer': self.transfer,
+            'settings': self.settings
         }
         self.__model = DataRecord()  # Instancia o modelo de dados
 
@@ -29,6 +30,13 @@ class Application():
     def register(self):
         # Renderiza a página de registro
         return template('app/views/html/register')
+    
+    def settings(self):
+        session_id = request.get_cookie('session_id')
+        user = self.__model.getCurrentUser(session_id)
+        if not user:
+            redirect('/')
+        return template('app/views/html/settings')
 
     def home(self):
         session_id = request.get_cookie('session_id')

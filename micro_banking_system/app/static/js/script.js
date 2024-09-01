@@ -246,6 +246,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('#configBtn').forEach(function(configBtn) {
+        configBtn.addEventListener('click', function() {
+            window.location.href = "/settings";
+        });
+    });
+});
+
 // Funcionalidade de depósito - Redireciona para a página de depósito
 document.getElementById('depositPageBtn').addEventListener('click', function() {
     window.location.href = "/deposito";
