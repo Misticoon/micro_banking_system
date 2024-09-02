@@ -42,26 +42,24 @@ if (document.getElementById('registerForm')) {
         const registerEmail = document.getElementById('registerEmail').value; // Obtém o valor do campo de email
         const registerPassword = document.getElementById('registerPassword').value; // Obtém o valor do campo de senha
         const registerConfirmPassword = document.getElementById('registerConfirmPassword').value; // Obtém o valor do campo de confirmação de senha
-        const registerDob = new Date(document.getElementById('registerDob').value); // Obtém e converte a data de nascimento
-        const today = new Date(); // Data atual
+        const registerDob = new Date(document.getElementById('registerDob').value);
+        const today = new Date();
         
-        // Cálculo da idade do usuário
         let age = today.getFullYear() - registerDob.getFullYear();
         const monthDiff = today.getMonth() - registerDob.getMonth();
         if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < registerDob.getDate())) {
             age--;
         }
+    
+        if (age < 18) {
+            alert('Você deve ter pelo menos 18 anos para se registrar.');
+            event.preventDefault();
+            return;
+        }
 
         // Verifica se as senhas são iguais
         if (registerPassword !== registerConfirmPassword) {
             alert('As senhas não coincidem. Por favor, verifique e tente novamente.');
-            event.preventDefault(); // Impede a submissão do formulário
-            return;
-        }
-
-        // Verifica se o usuário tem pelo menos 18 anos
-        if (age < 18) {
-            alert('Você deve ter pelo menos 18 anos para se registrar.');
             event.preventDefault(); // Impede a submissão do formulário
             return;
         }

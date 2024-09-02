@@ -1,5 +1,6 @@
 from app.controllers.datarecord import DataRecord
 from bottle import template, redirect, request, response
+from datetime import datetime
 
 class Application():
 
@@ -98,14 +99,20 @@ class Application():
         redirect('/')  # Redireciona para a página inicial
 
     def create_user(self, first_name, last_name, email, password, dob):
-        # Cria um novo usuário no sistema
-        if self.__model.email_exists(email):
-            redirect('/register?error=email_exists')
+        dob_datetime = datetime.strptime(dob, '%Y-%m-%d')
+        today = datetime.today()
+        
+        age = today.year - dob_datetime.year - ((today.month, today.day) < (dob_datetime.month, dob_datetime.day))
+        
+        if age < 18 or self.__model.email_exists(email):
+            redirect('/register')
+            
         else:
-            self.__model.book(first_name, last_name, email, password)
+            self.__model.book(first_name, last_name, email, password, dob)
             session_id = self.__model.checkUser(email, password)
             response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
-            redirect('/home?registered=true')
+            redirect('/home')
+
 
     def email_exists(self, email):
         # Verifica se um email já está registrado

@@ -127,4 +127,4 @@ def process_deposit():
 # Inicialização do servidor
 if __name__ == '__main__':
     # Executa o servidor da aplicação Bottle na porta 7080 em modo de debug
-    run(app, host='localhost', port=8080, debug=True)
+    run(app, host='localhost', port=8084, debug=True)

@@ -21,9 +21,9 @@ class DataRecord():
             # Se o arquivo não for encontrado, cria um usuário Guest
             self.__user_accounts.append(UserAccount('Guest', '000000'))
 
-    def book(self, first_name, last_name, username, password):
+    def book(self, first_name, last_name, username, password, dob):
         # Cria um novo usuário e o adiciona à lista de contas de usuário
-        new_user = UserAccount(first_name, last_name, username, password)
+        new_user = UserAccount(first_name, last_name, username, password, dob)
         self.__user_accounts.append(new_user)
         with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
             user_data = [vars(user_account) for user_account in self.__user_accounts]  # Converte os objetos em dicionários

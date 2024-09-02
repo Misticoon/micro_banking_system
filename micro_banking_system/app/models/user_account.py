@@ -4,7 +4,7 @@ import string
 class Person:
     # Classe base que representa uma pessoa
 
-    def __init__(self, first_name, last_name, dob=None):
+    def __init__(self, first_name, last_name, dob):
         # Inicializa uma nova instância de uma pessoa com nome, sobrenome e data de nascimento opcional
         self.first_name = first_name
         self.last_name = last_name
@@ -14,7 +14,7 @@ class Person:
 class UserAccount(Person):
     # Classe que representa uma conta de usuário, herda de Person
 
-    def __init__(self, first_name, last_name, username, password, dob=None, balance=0, bank_account_id=None):
+    def __init__(self, first_name, last_name, username, password, dob, balance=0, bank_account_id=None):
         # Inicializa uma nova instância de conta de usuário com nome, sobrenome, nome de usuário, senha, saldo, ID de conta bancária, e data de nascimento opcional
         super().__init__(first_name, last_name, dob)  # Chama o construtor da classe base Person
         self.username = username
