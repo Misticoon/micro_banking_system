@@ -252,6 +252,113 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+if (document.getElementById('profileForm')) {
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Impede a submissão padrão do formulário
+
+        // Verifica se o formulário é válido
+        if (!this.checkValidity()) {
+            this.reportValidity(); // Exibe as mensagens de erro padrão do navegador
+            return;
+        }
+
+        const updatedProfile = {
+            firstName: document.getElementById('firstName').value,
+            lastName: document.getElementById('lastName').value,
+            email: document.getElementById('email').value,
+            dob: document.getElementById('dob').value
+        };
+
+        fetch('/update_profile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedProfile) // Envia os dados atualizados ao backend
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert(data.message); // Exibe a mensagem de erro do backend, como "Este e-mail já está em uso por outro usuário"
+                return;
+            }
+            alert('Perfil atualizado com sucesso!');
+            window.location.href = "/home"; // Redireciona para a página de configurações
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao atualizar o perfil. Tente novamente mais tarde.');
+        });
+    });
+}
+
+if (document.getElementById('passwordForm')) {
+    document.getElementById('passwordForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Impede a submissão padrão do formulário
+
+        const passwordData = {
+            currentPassword: document.getElementById('currentPassword').value,
+            newPassword: document.getElementById('newPassword').value,
+            confirmPassword: document.getElementById('confirmPassword').value,
+        };
+
+        fetch('/update_password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(passwordData) // Envia os dados ao backend
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (!data.success) {
+                alert(data.message); // Exibe a mensagem de erro do backend
+                return;
+            }
+            alert('Senha atualizada com sucesso!');
+            window.location.href = "/home"; // Redireciona para a página de configurações
+        })
+        .catch(error => {
+            console.error('Erro:', error);
+            alert('Erro ao atualizar a senha. Tente novamente mais tarde.');
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Adiciona um event listener ao botão de deletar conta
+    const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+
+    if (deleteAccountBtn) {
+        deleteAccountBtn.addEventListener('click', function() {
+            // Exibe uma caixa de confirmação
+            const userConfirmed = confirm('Tem certeza que deseja deletar sua conta? Esta ação não pode ser desfeita.');
+
+            if (userConfirmed) {
+                // Se o usuário confirmou, envia uma requisição para deletar a conta
+                fetch('/delete_account', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Conta deletada com sucesso!');
+                        window.location.href = "/"; // Redireciona para a página inicial após deletar a conta
+                    } else {
+                        alert('Erro ao deletar a conta. Tente novamente.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao deletar a conta. Tente novamente.');
+                });
+            }
+        });
+    }
+});
+
 // Funcionalidade de depósito - Redireciona para a página de depósito
 document.getElementById('depositPageBtn').addEventListener('click', function() {
     window.location.href = "/deposito";

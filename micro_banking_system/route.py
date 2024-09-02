@@ -124,7 +124,20 @@ def process_deposit():
     # Processa o depósito de valores
     return ctl.process_deposit()
 
+@app.route('/update_profile', method='POST')
+def update_profile():
+    return ctl.update_profile()
+
+# Rota para processar a atualização de senha (POST)
+@app.route('/update_password', method='POST')
+def update_password():
+    return ctl.update_password()
+
+@app.route('/delete_account', method='POST')
+def delete_account():
+    return ctl.delete_account()
+
 # Inicialização do servidor
 if __name__ == '__main__':
     # Executa o servidor da aplicação Bottle na porta 7080 em modo de debug
-    run(app, host='localhost', port=8084, debug=True)
+    run(app, host='localhost', port=8094, debug=True)

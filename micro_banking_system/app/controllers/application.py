@@ -37,7 +37,7 @@ class Application():
         user = self.__model.getCurrentUser(session_id)
         if not user:
             redirect('/')
-        return template('app/views/html/settings')
+        return template('app/views/html/settings', user=user)
 
     def home(self):
         session_id = request.get_cookie('session_id')
@@ -106,7 +106,7 @@ class Application():
         
         if age < 18 or self.__model.email_exists(email):
             redirect('/register')
-            
+
         else:
             self.__model.book(first_name, last_name, email, password, dob)
             session_id = self.__model.checkUser(email, password)
@@ -178,3 +178,83 @@ class Application():
         self.update_user(user)  # Atualiza os dados do usuário
         self.update_user(destination_user)  # Atualiza os dados do usuário de destino
         return {'success': True, 'new_balance': user.balance}
+    
+    def update_profile(self):
+        session_id = request.get_cookie('session_id')
+        user = self.get_current_user(session_id)
+        if not user:
+            return {'success': False, 'message': 'Usuário não autenticado'}
+
+        # Obtém os dados enviados pelo frontend
+        updated_data = request.json
+        first_name = updated_data.get('firstName')
+        last_name = updated_data.get('lastName')
+        email = updated_data.get('email')
+        dob = updated_data.get('dob')
+
+        # Validações:
+        if not first_name or not last_name or not email or not dob:
+            return {'success': False, 'message': 'Todos os campos devem estar preenchidos'}
+
+        # Validação de e-mail
+        if "@" not in email or "." not in email.split("@")[-1]:
+            return {'success': False, 'message': 'Email inválido'}
+
+        # Verificar se o e-mail já existe no banco de dados
+        if email != user.username and self.__model.email_exists(email):
+            return {'success': False, 'message': 'Este e-mail já está em uso por outro usuário'}
+
+        # Validação de idade
+        dob_datetime = datetime.strptime(dob, '%Y-%m-%d')
+        today = datetime.today()
+        age = today.year - dob_datetime.year - ((today.month, today.day) < (dob_datetime.month, dob_datetime.day))
+
+        if age < 18:
+            return {'success': False, 'message': 'Você deve ter pelo menos 18 anos'}
+
+        # Atualiza os dados do usuário
+        user.first_name = first_name
+        user.last_name = last_name
+        user.username = email
+        user.dob = dob
+
+        # Atualiza as informações do usuário no banco de dados
+        self.update_user(user)
+
+        return {'success': True, 'message': 'Perfil atualizado com sucesso'}
+    
+    def update_password(self):
+        session_id = request.get_cookie('session_id')
+        user = self.get_current_user(session_id)
+        if not user:
+            return {'success': False, 'message': 'Usuário não autenticado'}
+
+        # Obtém os dados enviados pelo frontend
+        password_data = request.json
+        current_password = password_data.get('currentPassword')
+        new_password = password_data.get('newPassword')
+        confirm_password = password_data.get('confirmPassword')
+
+        # Verifica se a senha atual corresponde à armazenada
+        if user.password != current_password:
+            return {'success': False, 'message': 'Senha atual incorreta'}
+
+        # Verifica se a nova senha e a confirmação são iguais
+        if new_password != confirm_password:
+            return {'success': False, 'message': 'Nova senha e confirmação não coincidem.'}
+
+        # Atualiza a senha
+        user.password = new_password
+        self.update_user(user)
+
+        return {'success': True, 'message': 'Senha atualizada com sucesso'}
+
+    def delete_account(self):
+        session_id = request.get_cookie('session_id')
+        user = self.get_current_user(session_id)
+        if not user:
+            return {'success': False, 'message': 'Usuário não autenticado'}
+
+        self.__model.delete_user(user.username)
+        self.logout_user()  # Desloga o usuário após deletar a conta
+        return {'success': True, 'message': 'Conta deletada com sucesso'}

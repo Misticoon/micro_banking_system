@@ -59,3 +59,9 @@ class DataRecord():
     def email_exists(self, email):
         # Verifica se o email (nome de usuário) já está registrado
         return any(user.username == email for user in self.__user_accounts)
+    
+    def delete_user(self, username):
+        self.__user_accounts = [user for user in self.__user_accounts if user.username != username]
+        with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
+            user_data = [vars(user_account) for user_account in self.__user_accounts]
+            json.dump(user_data, arquivo_json)
