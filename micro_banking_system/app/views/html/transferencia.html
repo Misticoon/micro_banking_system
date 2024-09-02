@@ -27,8 +27,10 @@
             <img src="../../static/image/logo.png" alt="Logo" class="logo">
             <!-- Imagem do logotipo, com a classe "logo" para estilização -->
             <div class="config">
+                <!-- Div que contém o botão de configurações -->
                 <a>
                     <img src="../../static/image/config.png" alt="Configurações" id="configBtn" class="config-icon">
+                    <!-- Imagem do ícone de configurações com um ID e classe para estilização e funcionalidade -->
                 </a>
             </div>
             <div class="logout">
@@ -45,19 +47,22 @@
                 <!-- Seção para exibir as informações e o formulário de transferência -->
                 <h2>TRANSFERÊNCIA</h2>
                 <!-- Título da seção de transferência -->
-                <p><strong>NÚMERO DA Cta.</strong> <span>{{bank_account_id}}</span></p>
-                <!-- Exibe o número da conta bancária do usuário usando a variável 'bank_account_id' -->
-                <p>Digite o número da conta de destino: <input type="text" id="destinationAccount"></p>
-                <!-- Campo de entrada para o número da conta de destino -->
-                <p>Digite o valor da transferência: R$ <input type="number" id="transferValue" min="0" step="0.01"></p>
-                <!-- Campo de entrada para o valor da transferência, com valor mínimo e incremento de centavos -->
-                <div class="buttons-container">
-                    <!-- Contêiner para os botões de limpar e transferir -->
-                    <button type="button" id="clearBtn">LIMPAR</button>
-                    <!-- Botão para limpar os campos de entrada -->
-                    <button type="button" id="transferBtn">TRANSFERIR</button>
-                    <!-- Botão para submeter a transferência -->
-                </div>
+                <form id="transferForm">
+                <!-- Envolva o conteúdo em um formulário -->
+                    <p><strong>NÚMERO DA Cta.</strong> <span>{{bank_account_id}}</span></p>
+                    <!-- Exibe o número da conta bancária do usuário usando a variável 'bank_account_id' -->
+                    <p>Digite o número da conta de destino: <input type="text" id="destinationAccount"></p>
+                    <!-- Campo de entrada para o número da conta de destino -->
+                    <p>Digite o valor da transferência: R$ <input type="number" id="transferValue" min="0" step="0.01"></p>
+                    <!-- Campo de entrada para o valor da transferência, com valor mínimo e incremento de centavos -->
+                    <div class="buttons-container">
+                        <!-- Contêiner para os botões de limpar e transferir -->
+                        <button type="button" id="clearBtn">LIMPAR</button>
+                        <!-- Botão para limpar os campos de entrada -->
+                        <button type="submit" id="transferBtn">TRANSFERIR</button>
+                        <!-- Botão para submeter a transferência -->
+                    </div>
+                </form>
             </div>
         </main>
     </div>

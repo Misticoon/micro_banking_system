@@ -33,6 +33,7 @@ class Application():
         return template('app/views/html/register')
     
     def settings(self):
+        # Renderiza a página de configurações do usuário autenticado
         session_id = request.get_cookie('session_id')
         user = self.__model.getCurrentUser(session_id)
         if not user:
@@ -40,6 +41,7 @@ class Application():
         return template('app/views/html/settings', user=user)
 
     def home(self):
+        # Renderiza a página inicial do usuário autenticado
         session_id = request.get_cookie('session_id')
         user = self.__model.getCurrentUser(session_id)
         if not user:
@@ -85,6 +87,7 @@ class Application():
         return current_user and bank_account_id == current_user.bank_account_id
 
     def authenticate_user(self, username, password):
+        # Autentica o usuário e cria uma sessão
         session_id = self.__model.checkUser(username, password)
         if session_id:
             response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
@@ -94,11 +97,13 @@ class Application():
             redirect('/')
 
     def logout_user(self):
+        # Desloga o usuário e remove o cookie de sessão
         self.__model.logout()  # Remove a autenticação do usuário
         response.delete_cookie('session_id')  # Remove o cookie de sessão
         redirect('/')  # Redireciona para a página inicial
 
     def create_user(self, first_name, last_name, email, password, dob):
+        # Cria um novo usuário após verificar as validações necessárias
         dob_datetime = datetime.strptime(dob, '%Y-%m-%d')
         today = datetime.today()
         
@@ -112,7 +117,6 @@ class Application():
             session_id = self.__model.checkUser(email, password)
             response.set_cookie('session_id', session_id, httponly=True, secure=True, max_age=3600)
             redirect('/home')
-
 
     def email_exists(self, email):
         # Verifica se um email já está registrado
@@ -180,6 +184,7 @@ class Application():
         return {'success': True, 'new_balance': user.balance}
     
     def update_profile(self):
+        # Atualiza o perfil do usuário autenticado
         session_id = request.get_cookie('session_id')
         user = self.get_current_user(session_id)
         if not user:
@@ -224,6 +229,7 @@ class Application():
         return {'success': True, 'message': 'Perfil atualizado com sucesso'}
     
     def update_password(self):
+        # Atualiza a senha do usuário autenticado
         session_id = request.get_cookie('session_id')
         user = self.get_current_user(session_id)
         if not user:
@@ -250,6 +256,7 @@ class Application():
         return {'success': True, 'message': 'Senha atualizada com sucesso'}
 
     def delete_account(self):
+        # Deleta a conta do usuário autenticado
         session_id = request.get_cookie('session_id')
         user = self.get_current_user(session_id)
         if not user:

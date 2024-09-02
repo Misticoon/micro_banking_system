@@ -42,7 +42,7 @@ if (document.getElementById('registerForm')) {
         const registerEmail = document.getElementById('registerEmail').value; // Obtém o valor do campo de email
         const registerPassword = document.getElementById('registerPassword').value; // Obtém o valor do campo de senha
         const registerConfirmPassword = document.getElementById('registerConfirmPassword').value; // Obtém o valor do campo de confirmação de senha
-        const registerDob = new Date(document.getElementById('registerDob').value);
+        const registerDob = new Date(document.getElementById('registerDob').value); // Obtém a data de nascimento
         const today = new Date();
         
         let age = today.getFullYear() - registerDob.getFullYear();
@@ -118,14 +118,15 @@ if (document.querySelector('.return-icon a')) {
 
 // Adiciona event listeners aos botões de depósito, saque, transferência e limpar
 document.addEventListener('DOMContentLoaded', function() {
-    const depositBtn = document.getElementById('depositBtn'); // Botão de depósito
-    const withdrawBtn = document.getElementById('withdrawBtn'); // Botão de saque
-    const transferBtn = document.getElementById('transferBtn'); // Botão de transferência
+    const depositForm = document.getElementById('depositForm'); // Botão de depósito
+    const withdrawForm = document.getElementById('withdrawForm'); // Botão de saque
+    const transferForm = document.getElementById('transferForm'); // Botão de transferência
     const clearBtn = document.getElementById('clearBtn'); // Botão de limpar
 
-    if (depositBtn) {
+    if (depositForm) {
         // Função para processamento de depósitos
-        depositBtn.addEventListener('click', function() {
+        depositForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede a submissão imediata para permitir validações
             const depositValue = parseFloat(document.getElementById('depositValue').value); // Obtém o valor de depósito
 
             if (depositValue > 0) {
@@ -161,9 +162,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    if (withdrawBtn) {
+    if (withdrawForm) {
         // Função para processamento de saques
-        withdrawBtn.addEventListener('click', function() {
+        withdrawForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede a submissão imediata para permitir validações
             const withdrawValue = parseFloat(document.getElementById('withdrawValue').value); // Obtém o valor de saque
 
             if (withdrawValue > 0) {
@@ -194,9 +196,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    if (transferBtn) {
+    if (transferForm) {
         // Função para processamento de transferências
-        transferBtn.addEventListener('click', function() {
+        transferForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede a submissão imediata para permitir validações
             const destinationAccount = document.getElementById('destinationAccount').value; // Obtém a conta de destino
             const transferValue = parseFloat(document.getElementById('transferValue').value); // Obtém o valor de transferência
 
@@ -244,6 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// Redireciona para a página de configurações ao clicar no botão de configurações
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('#configBtn').forEach(function(configBtn) {
         configBtn.addEventListener('click', function() {
@@ -252,6 +256,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Verificação para o formulário de perfil
 if (document.getElementById('profileForm')) {
     document.getElementById('profileForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Impede a submissão padrão do formulário
@@ -292,6 +297,7 @@ if (document.getElementById('profileForm')) {
     });
 }
 
+// Verificação para o formulário de senha
 if (document.getElementById('passwordForm')) {
     document.getElementById('passwordForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Impede a submissão padrão do formulário
@@ -325,8 +331,8 @@ if (document.getElementById('passwordForm')) {
     });
 }
 
+// Adiciona event listener ao botão de deletar conta
 document.addEventListener('DOMContentLoaded', function() {
-    // Adiciona um event listener ao botão de deletar conta
     const deleteAccountBtn = document.getElementById('deleteAccountBtn');
 
     if (deleteAccountBtn) {

@@ -31,17 +31,22 @@
                     <div class="form-group">
                         <label for="firstName">Nome</label>
                         <input type="text" id="firstName" name="firstName" value="{{user.first_name}}" required>
+                        <!-- Campo de entrada para o nome do usuário, pré-preenchido com o valor armazenado -->
 
                         <label for="lastName">Sobrenome</label>
                         <input type="text" id="lastName" name="lastName" value="{{user.last_name}}" required>
+                        <!-- Campo de entrada para o sobrenome do usuário, pré-preenchido com o valor armazenado -->
 
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" value="{{user.username}}" required>
+                        <!-- Campo de entrada para o email do usuário, pré-preenchido com o valor armazenado -->
 
                         <label for="dob">Data de nascimento</label>
                         <input type="date" id="dob" name="dob" value="{{user.dob}}" required>
+                        <!-- Campo de entrada para a data de nascimento do usuário, pré-preenchido com o valor armazenado -->
                     </div>
                     <button type="submit" id="updateProfileBtn" class="btn-primary">Alterar Perfil</button>
+                    <!-- Botão para submeter as alterações de perfil -->
                 </form>
             </div>
 
@@ -50,22 +55,28 @@
                     <div class="form-group">
                         <label for="currentPassword">Senha Atual</label>
                         <input type="password" id="currentPassword" name="currentPassword" required>
+                        <!-- Campo de entrada para a senha atual -->
 
                         <label for="newPassword">Nova Senha</label>
                         <input type="password" id="newPassword" name="newPassword" required>
+                        <!-- Campo de entrada para a nova senha -->
 
                         <label for="confirmPassword">Confirme sua senha</label>
                         <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        <!-- Campo de entrada para confirmar a nova senha -->
                     </div>
                     <button type="submit" id="updatePasswordBtn" class="btn-primary">Alterar Senha</button>
+                    <!-- Botão para submeter a alteração de senha -->
                 </form>
             </div>
 
             <div class="form-container">
                 <button type="button" class="btn-danger" id="deleteAccountBtn">Deletar Conta</button>
+                <!-- Botão para deletar a conta do usuário -->
             </div>
         </main>
     </div>
     <script src="../../static/js/script.js"></script>
+    <!-- Script JavaScript para adicionar funcionalidades ao formulário -->
 </body>
 </html>

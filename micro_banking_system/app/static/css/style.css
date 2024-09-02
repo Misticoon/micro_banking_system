@@ -60,11 +60,13 @@ header {
 }
 
 .logout {
+    /* Define a posição do botão de logout no cabeçalho */
     right: 20px;
     position: absolute;
 }
 
 .config {
+    /* Define a posição do botão de configurações no cabeçalho */
     right: 70px;
     position: absolute;
 }
@@ -410,6 +412,7 @@ header h1 {
 }
 
 .settings .form-container {
+    /* Define o espaçamento inferior adicional para o contêiner de formulários na página de configurações */
     margin-bottom: 20px;
 }
 
@@ -445,6 +448,7 @@ button {
 }
 
 .settings .btn-danger {
+    /* Define o estilo específico para o botão de perigo na página de configurações */
     background-color: #FF4A4A;
     color: white;
     cursor: pointer;
@@ -460,6 +464,7 @@ button:hover {
 }
 
 .settings .btn-danger:hover {
+    /* Altera a cor de fundo ao passar o mouse sobre o botão de perigo na página de configurações */
     background-color: #D93737;
 }
 
@@ -505,4 +510,3 @@ button:hover {
     margin-top: 20px;
     border: none;
 }
-

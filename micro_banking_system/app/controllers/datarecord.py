@@ -46,6 +46,7 @@ class DataRecord():
             json.dump(user_data, arquivo_json)  # Salva os dados atualizados no arquivo JSON
 
     def checkUser(self, username, password):
+        # Verifica as credenciais do usuário para autenticação
         for user in self.__user_accounts:
             if user.username == username and user.password == password:
                 session_id = str(uuid.uuid4())  # Gera um ID de sessão como string
@@ -54,6 +55,7 @@ class DataRecord():
         return None  # Retorna None se a autenticação falhar
 
     def logout(self):
+        # Desloga o usuário atual
         self.__authenticated_user = None  # Remove a associação com o usuário autenticado
 
     def email_exists(self, email):
@@ -61,7 +63,8 @@ class DataRecord():
         return any(user.username == email for user in self.__user_accounts)
     
     def delete_user(self, username):
+        # Remove um usuário com base no nome de usuário
         self.__user_accounts = [user for user in self.__user_accounts if user.username != username]
         with open("app/controllers/db/user_accounts.json", "w") as arquivo_json:
             user_data = [vars(user_account) for user_account in self.__user_accounts]
-            json.dump(user_data, arquivo_json)
+            json.dump(user_data, arquivo_json)  # Salva os dados atualizados no arquivo JSON
