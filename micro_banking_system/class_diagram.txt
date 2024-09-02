@@ -30,6 +30,7 @@ classDiagram
         +checkUser(str username, str password) str
         +logout()
         +email_exists(str email) bool
+        +delete_user(str username)
     }
 
     class Application {
@@ -53,5 +54,8 @@ classDiagram
         +process_deposit() dict
         +process_withdraw() dict
         +process_transfer() dict
+        +update_profile() dict
+        +update_password() dict
+        +delete_account() dict
     }
 
