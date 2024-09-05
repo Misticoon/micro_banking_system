@@ -3,8 +3,10 @@ if (document.getElementById('loginForm')) {
     // Adiciona um event listener ao formulário de login para capturar o evento de submissão
     document.getElementById('loginForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Impede a submissão imediata para permitir validações
+        const loginEmail = document.getElementById('loginEmail').value; // Obtém o valor do campo de email
+        const loginPassword = document.getElementById('loginPassword').value; // Obtém o valor do campo de senha
+
         const form = document.getElementById('loginForm'); // Referência ao formulário
-        
         form.submit(); // Submete o formulário ao backend para autenticação
     });
 
