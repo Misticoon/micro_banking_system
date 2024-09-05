@@ -6,7 +6,7 @@
     <!-- Define a codificação de caracteres para UTF-8 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Configura o viewport para garantir a responsividade em dispositivos móveis -->
-    <link rel="icon" type="image/png" href="../../static/image/logo.png">
+    <link rel="icon" type="image/png" href="../../static/image/favicon.png">
     <!-- Define o ícone exibido na aba do navegador -->
     <title>Depósito</title>
     <!-- Define o título da página exibido na aba do navegador -->
@@ -53,7 +53,7 @@
                 <!-- Envolva o conteúdo em um formulário -->
                     <p><strong>NÚMERO DA Cta.</strong> <span>{{bank_account_id}}</span></p>
                     <!-- Exibe o número da conta bancária do usuário usando a variável 'bank_account_id' -->
-                    <p>Digite o valor do depósito: R$ <input type="number" id="depositValue" min="0" step="0.01"></p>
+                    <p>Digite o valor do depósito: R$ <input type="number" id="depositValue" min="0.01" step="0.01"></p>
                     <!-- Campo de entrada para o valor do depósito, com valor mínimo e incremento de centavos -->
                     <div class="buttons-container">
                         <!-- Contêiner para os botões de limpar e depositar -->
