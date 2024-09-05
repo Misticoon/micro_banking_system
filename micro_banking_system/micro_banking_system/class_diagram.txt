@@ -1,0 +1,61 @@
+classDiagram
+    Person <|-- UserAccount
+    DataRecord *-- UserAccount
+    Application o-- DataRecord
+    
+    class Person {
+        +str first_name
+        +str last_name
+        +str dob
+        +__init__(str first_name, str last_name, str dob)
+    }
+
+    class UserAccount {
+        +str username
+        +str password
+        +float balance
+        +str bank_account_id
+        +__init__(str first_name, str last_name, str username, str password, str dob, float balance, str bank_account_id)
+        +generate_bank_account_id() str
+    }
+
+    class DataRecord {
+        -list~UserAccount~ __user_accounts
+        -UserAccount __authenticated_user
+        +__init__()
+        +read()
+        +book(str first_name, str last_name, str username, str password)
+        +getCurrentUser(str session_id) UserAccount
+        +update_user(UserAccount user)
+        +checkUser(str username, str password) str
+        +logout()
+        +email_exists(str email) bool
+        +delete_user(str username)
+    }
+
+    class Application {
+        +dict~str, method~ pages
+        -DataRecord __model
+        +__init__()
+        +render(str page, str identifier) str
+        +index() str
+        +register() str
+        +home() str
+        +deposit() str
+        +withdraw() str
+        +transfer() str
+        +get_current_user(str session_id) UserAccount
+        +update_user(UserAccount user)
+        +is_authenticated(str bank_account_id) bool
+        +authenticate_user(str username, str password)
+        +logout_user()
+        +create_user(str first_name, str last_name, str email, str password, str dob)
+        +email_exists(str email) bool
+        +process_deposit() dict
+        +process_withdraw() dict
+        +process_transfer() dict
+        +update_profile() dict
+        +update_password() dict
+        +delete_account() dict
+    }
+
